@@ -1,0 +1,12 @@
+# requirements-docker.txt
+fastapi==0.111.1
+uvicorn==0.38.0
+SQLAlchemy==2.0.44
+psycopg2-binary==2.9.11
+python-dotenv==1.2.1
+pydantic==2.12.3
+passlib[bcrypt]==1.7.4
+
+bcrypt==4.2.0
+email-validator==2.2.0
+playwright==1.56.0
