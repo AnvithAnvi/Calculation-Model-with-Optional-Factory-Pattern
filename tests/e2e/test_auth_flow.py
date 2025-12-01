@@ -5,8 +5,10 @@ from playwright.sync_api import sync_playwright
 
 def _start_uvicorn():
     # Start uvicorn in a subprocess; return the Popen object
+    # Write uvicorn output to a temporary log to aid debugging when tests fail
+    log = open('/tmp/uv_e2e.log', 'a')
     proc = subprocess.Popen(["./.venv/bin/python", "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                            stdout=log, stderr=subprocess.STDOUT)
     # wait for server to be reachable
     for i in range(60):
         try:
@@ -38,14 +40,19 @@ def test_register_login_positive_and_negative():
 
             # Positive: register (should receive token and save it)
             email = _unique_email()
+            import uuid as _uuid
+            username_generated = f"u_{_uuid.uuid4().hex[:8]}"
             page.goto("http://127.0.0.1:8000/static/register.html")
             page.fill('#email', email)
-            page.fill('#username', 'e2e_user')
+            page.fill('#username', username_generated)
             page.fill('#password', 'strong-password')
             page.fill('#confirm', 'strong-password')
             page.click('button[type=submit]')
-            # wait for token to appear in localStorage (new UI saves token there)
-            page.wait_for_function("() => !!localStorage.getItem('access_token')", timeout=5000)
+            # wait for either success or error message
+            page.wait_for_selector('.msg.success, .msg.error', timeout=7000)
+            if page.query_selector('.msg.error'):
+                err_txt = page.inner_text('.msg.error')
+                raise AssertionError(f"Registration UI showed error: {err_txt}")
             token_reg = page.evaluate("() => localStorage.getItem('access_token')")
             assert token_reg and len(token_reg) > 10
 
