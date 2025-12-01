@@ -2,6 +2,8 @@
 from typing import Dict, List
 
 from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from pydantic import BaseModel
@@ -20,6 +22,14 @@ from app.calculation_factory import CalculationFactory
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="FastAPI Calculator with Factory Pattern")
+
+# Serve simple static front-end pages for registration/login used by E2E tests
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get("/")
+def root_redirect():
+    return RedirectResponse(url="/static/register.html")
 
 
 # ---------- Helper: default user for calculations ----------

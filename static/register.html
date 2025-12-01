@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Register</title>
+  <style>body{font-family:Arial,Helvetica,sans-serif;margin:24px}label{display:block;margin-top:8px}input{padding:6px;width:300px}button{margin-top:12px;padding:8px 12px}#message{margin-top:12px;color:green}#error{margin-top:12px;color:red}</style>
+</head>
+<body>
+  <h1>Register</h1>
+  <form id="registerForm">
+    <label>Email<input id="email" type="email" required></label>
+    <label>Username<input id="username" type="text" required></label>
+    <label>Password<input id="password" type="password" required minlength="6"></label>
+    <label>Confirm Password<input id="confirm" type="password" required minlength="6"></label>
+    <button type="submit">Register</button>
+  </form>
+  <div id="message" role="status" aria-live="polite"></div>
+  <div id="error" role="alert"></div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const email = document.getElementById('email');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const confirm = document.getElementById('confirm');
+    const message = document.getElementById('message');
+    const error = document.getElementById('error');
+
+    function showError(txt){ error.textContent = txt; message.textContent = ''; }
+    function showMessage(txt){ message.textContent = txt; error.textContent = ''; }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      // client-side validation
+      if (!email.value.includes('@')){ showError('Invalid email format'); return; }
+      if (password.value.length < 6){ showError('Password must be at least 6 characters'); return; }
+      if (password.value !== confirm.value){ showError('Passwords do not match'); return; }
+
+      try{
+        const res = await fetch('/users/register', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ username: username.value, email: email.value, password: password.value })
+        });
+        if (res.status === 201){
+          const data = await res.json();
+          showMessage('Registration successful. You can now log in.');
+        } else {
+          const err = await res.json();
+          showError(err.detail || JSON.stringify(err));
+        }
+      }catch(err){ showError('Network error: '+err.message); }
+    });
+  </script>
+</body>
+</html>
