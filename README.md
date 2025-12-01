@@ -179,13 +179,3 @@ pytest -q
 uvicorn app.main:app --reload
 ```
 
-**Contact / Next steps**
-
-If you'd like, I can:
-- Add a short `make` or `invoke` task to automate these commands.
-- Add a `.env.example` with recommended env values.
-- Remove `test.db` from the repo and add it to `.gitignore` (recommended for cleanliness).
-
------
-
-Generated on: December 1, 2025
