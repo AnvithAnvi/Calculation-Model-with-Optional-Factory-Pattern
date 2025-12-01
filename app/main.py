@@ -156,7 +156,15 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db.add(sess)
     db.commit()
 
-    return {"access_token": token, "token_type": "bearer", "user_id": db_user.id}
+    # Return token and basic user info for convenience
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "user_id": db_user.id,
+        "id": db_user.id,
+        "username": db_user.username,
+        "email": db_user.email,
+    }
 
 
 # Login schema (simple)
