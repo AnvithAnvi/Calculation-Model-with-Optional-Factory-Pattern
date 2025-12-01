@@ -1,31 +1,5 @@
 import subprocess
 import time
-import os
-from playwright.sync_api import sync_playwright
-
-
-def _start_uvicorn():
-    # Start uvicorn in a subprocess; return the Popen object
-    proc = subprocess.Popen(["./.venv/bin/python", "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    # wait for server to be reachable
-    for i in range(60):
-        try:
-            import requests
-
-            r = requests.get("http://127.0.0.1:8000/docs", timeout=1)
-            if r.status_code == 200:
-                return proc
-        except Exception:
-            pass
-        time.sleep(0.2)
-    # If not up, kill process and raise
-    proc.kill()
-    raise RuntimeError("uvicorn did not start in time")
-
-
-import subprocess
-import time
 from playwright.sync_api import sync_playwright
 
 
@@ -70,8 +44,8 @@ def test_register_login_positive_and_negative():
             page.fill('#password', 'strong-password')
             page.fill('#confirm', 'strong-password')
             page.click('button[type=submit]')
-            # wait for success message or token saved
-            page.wait_for_selector('#message:has-text("Registration successful")', timeout=3000)
+            # wait for token to appear in localStorage (new UI saves token there)
+            page.wait_for_function("() => !!localStorage.getItem('access_token')", timeout=5000)
             token_reg = page.evaluate("() => localStorage.getItem('access_token')")
             assert token_reg and len(token_reg) > 10
 
@@ -80,7 +54,8 @@ def test_register_login_positive_and_negative():
             page.fill('#username_or_email', email)
             page.fill('#password', 'strong-password')
             page.click('button[type=submit]')
-            page.wait_for_selector('#message:has-text("Login successful")', timeout=3000)
+            # login UI shows a success message with class .msg.success
+            page.wait_for_selector('.msg.success', timeout=5000)
             # ensure token stored in localStorage
             token = page.evaluate("() => localStorage.getItem('access_token')")
             assert token and len(token) > 10
@@ -106,7 +81,8 @@ def test_register_login_positive_and_negative():
             page.fill('#username_or_email', email)
             page.fill('#password', 'wrong-password')
             page.click('button[type=submit]')
-            page.wait_for_selector('#error:has-text("Invalid credentials")', timeout=3000)
+            # login error is shown as .msg.error
+            page.wait_for_selector('.msg.error:has-text("Invalid credentials")', timeout=5000)
 
             browser.close()
     finally:
