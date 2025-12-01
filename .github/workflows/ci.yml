@@ -94,6 +94,8 @@ jobs:
           done
 
       - name: Start FastAPI app (uvicorn) in background for e2e tests
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/fastapi_db
         run: |
           nohup python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
           echo $! > uvicorn.pid
@@ -111,6 +113,13 @@ jobs:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/fastapi_db
         run: |
           pytest -q tests/e2e
+
+      - name: Upload uvicorn.log (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uvicorn-log
+          path: uvicorn.log
 
   build_and_push:
     needs: [test, e2e]

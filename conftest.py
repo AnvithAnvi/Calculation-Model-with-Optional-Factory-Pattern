@@ -18,6 +18,16 @@ DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_TEST_DB)
 if "DATABASE_URL" not in os.environ:
     os.environ["DATABASE_URL"] = DATABASE_URL
 
+# If using the default file-backed SQLite DB, remove the file to ensure a clean
+# schema for each test run. This avoids leftover tables/constraints from
+# previous runs (useful during local iterative development).
+if DATABASE_URL.startswith("sqlite") and DATABASE_URL.endswith("./test.db"):
+    try:
+        if os.path.exists("./test.db"):
+            os.remove("./test.db")
+    except Exception:
+        pass
+
 # For SQLite in-memory with multiple threads (TestClient), we need this arg.
 connect_args = {}
 if DATABASE_URL.startswith("sqlite"):
