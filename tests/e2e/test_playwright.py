@@ -29,7 +29,14 @@ def test_swagger_ui_loads():
         with sync_playwright() as p:
             browser = p.chromium.launch()
             page = browser.new_page()
-            page.goto("http://127.0.0.1:8000/docs")
+            # Sometimes the server is still booting when the browser attempts to connect;
+            # retry a few times on connection errors to make the test less flaky.
+            for attempt in range(5):
+                try:
+                    page.goto("http://127.0.0.1:8000/docs")
+                    break
+                except Exception:
+                    time.sleep(0.5)
             assert "Swagger UI" in page.content()
             browser.close()
     finally:
