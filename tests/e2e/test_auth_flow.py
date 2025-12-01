@@ -24,6 +24,31 @@ def _start_uvicorn():
     raise RuntimeError("uvicorn did not start in time")
 
 
+import subprocess
+import time
+from playwright.sync_api import sync_playwright
+
+
+def _start_uvicorn():
+    # Start uvicorn in a subprocess; return the Popen object
+    proc = subprocess.Popen(["./.venv/bin/python", "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    # wait for server to be reachable
+    for i in range(60):
+        try:
+            import requests
+
+            r = requests.get("http://127.0.0.1:8000/docs", timeout=1)
+            if r.status_code == 200:
+                return proc
+        except Exception:
+            pass
+        time.sleep(0.2)
+    # If not up, kill process and raise
+    proc.kill()
+    raise RuntimeError("uvicorn did not start in time")
+
+
 def _unique_email():
     import uuid
 
@@ -37,7 +62,7 @@ def test_register_login_positive_and_negative():
             browser = p.chromium.launch()
             page = browser.new_page()
 
-            # Positive: register
+            # Positive: register (should receive token and save it)
             email = _unique_email()
             page.goto("http://127.0.0.1:8000/static/register.html")
             page.fill('#email', email)
@@ -45,8 +70,10 @@ def test_register_login_positive_and_negative():
             page.fill('#password', 'strong-password')
             page.fill('#confirm', 'strong-password')
             page.click('button[type=submit]')
-            # wait for success message
+            # wait for success message or token saved
             page.wait_for_selector('#message:has-text("Registration successful")', timeout=3000)
+            token_reg = page.evaluate("() => localStorage.getItem('access_token')")
+            assert token_reg and len(token_reg) > 10
 
             # Positive: login
             page.goto("http://127.0.0.1:8000/static/login.html")
@@ -61,13 +88,16 @@ def test_register_login_positive_and_negative():
             # Negative: register with short password (client-side prevents submit), but we can simulate by direct fetch
             # attempt to create via fetch with short password to get server-side 400 or validation
             bad_email = _unique_email()
-            resp = page.evaluate("async (e) => {
+            resp = page.evaluate(
+                '''async (e) => {
                 const r = await fetch('/users/register', {
                   method: 'POST', headers: {'Content-Type':'application/json'},
                   body: JSON.stringify({ username: 'u2', email: e, password: 'x' })
                 });
                 return { status: r.status, body: await r.text() };
-            }", bad_email)
+            }''',
+                bad_email,
+            )
             # server should reject/return 400 or 422
             assert int(resp['status']) in (400, 422)
 
@@ -81,4 +111,3 @@ def test_register_login_positive_and_negative():
             browser.close()
     finally:
         proc.terminate()
-*** End Patch

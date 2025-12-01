@@ -141,10 +141,22 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 # New: user registration alias (keeps backward compatibility)
-@app.post("/users/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@app.post("/users/register", status_code=status.HTTP_201_CREATED)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    """Alias for creating users at /users/register."""
-    return create_user(user, db)
+    """Register a new user and return a JWT access token on success."""
+    # Create the user (reuses validation in create_user)
+    db_user = create_user(user, db)
+
+    # Issue JWT token for immediate login
+    expires = timedelta(minutes=60)
+    token = create_access_token({"user_id": db_user.id}, expires_delta=expires)
+
+    # Store session token for revocation support
+    sess = SessionToken(token=token, user_id=db_user.id, created_at=datetime.utcnow(), expires_at=datetime.utcnow() + expires)
+    db.add(sess)
+    db.commit()
+
+    return {"access_token": token, "token_type": "bearer", "user_id": db_user.id}
 
 
 # Login schema (simple)

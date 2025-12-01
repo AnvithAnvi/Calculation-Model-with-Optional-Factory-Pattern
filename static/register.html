@@ -44,7 +44,13 @@
         });
         if (res.status === 201){
           const data = await res.json();
-          showMessage('Registration successful. You can now log in.');
+          // store JWT if present
+          if (data && data.access_token) {
+            localStorage.setItem('access_token', data.access_token);
+            showMessage('Registration successful. Token saved to localStorage.');
+          } else {
+            showMessage('Registration successful. You can now log in.');
+          }
         } else {
           const err = await res.json();
           showError(err.detail || JSON.stringify(err));

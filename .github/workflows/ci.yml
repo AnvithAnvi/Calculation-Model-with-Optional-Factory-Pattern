@@ -49,6 +49,7 @@ jobs:
       - name: Run unit + integration tests (no e2e)
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/fastapi_db
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           pytest -q tests/unit tests/integration
 
@@ -96,6 +97,7 @@ jobs:
       - name: Start FastAPI app (uvicorn) in background for e2e tests
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/fastapi_db
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           nohup python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
           echo $! > uvicorn.pid
@@ -111,6 +113,7 @@ jobs:
       - name: Run e2e tests (Playwright)
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/fastapi_db
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           pytest -q tests/e2e
 
