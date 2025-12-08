@@ -2,130 +2,41 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Register — Calculator</title>
-  <style>
-    :root{--bg:#f5f7fb;--card:#fff;--accent:#4f46e5;--muted:#6b7280;--danger:#dc2626;--success:#16a34a}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);color:#0f172a}
-    .center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .card{width:100%;max-width:420px;background:var(--card);box-shadow:0 4px 24px rgba(15,23,42,0.08);border-radius:12px;padding:28px}
-    h1{margin:0 0 8px;font-size:20px}
-    p.lead{margin:0 0 18px;color:var(--muted);font-size:14px}
-    label{display:block;margin-top:12px;font-size:13px;color:var(--muted)}
-    input{width:100%;padding:10px 12px;border:1px solid #e6eef8;border-radius:8px;margin-top:6px;font-size:14px}
-    button{margin-top:18px;width:100%;padding:10px 12px;border-radius:8px;background:var(--accent);color:white;border:none;font-weight:600;cursor:pointer}
-    .hint{margin-top:12px;font-size:13px;color:var(--muted)}
-    .msg{margin-top:12px;padding:10px;border-radius:8px;font-size:14px}
-    .msg.success{background:#ecfdf5;color:var(--success);border:1px solid #bbf7d0}
-    .msg.error{background:#fff5f5;color:var(--danger);border:1px solid #fecaca}
-    .top-row{display:flex;justify-content:space-between;align-items:center}
-    .status{font-size:13px;color:var(--muted)}
-    .small{font-size:13px}
-    .token{word-break:break-all;background:#f8fafc;padding:8px;border-radius:6px;margin-top:8px;font-family:monospace;font-size:13px}
-    .nav{margin-top:12px;text-align:center}
-    .nav a{color:var(--accent);text-decoration:none;font-weight:600}
-    @media (max-width:480px){.card{padding:18px}}
-  </style>
+  <title>Register</title>
+  <style>body{font-family:system-ui,Arial;margin:20px}.msg{margin-top:8px}.msg.success{color:green}.msg.error{color:#b00020}</style>
 </head>
 <body>
-  <div class="center">
-    <div class="card">
-      <div class="top-row">
-        <div>
-          <h1>Create an account</h1>
-          <p class="lead">Register to save your calculations. This demo stores a JWT in your browser.</p>
-        </div>
-        <div class="status" id="serverStatus">Checking...</div>
-      </div>
-
-      <form id="registerForm" autocomplete="off">
-        <label for="email">Email</label>
-        <input id="email" type="email" required placeholder="you@example.com" />
-
-        <label for="username">Username</label>
-        <input id="username" type="text" required placeholder="your username" />
-
-        <label for="password">Password</label>
-        <input id="password" type="password" required minlength="6" placeholder="At least 6 characters" />
-
-        <label for="confirm">Confirm password</label>
-        <input id="confirm" type="password" required minlength="6" placeholder="Repeat password" />
-
-        <button type="submit" id="submitBtn">Create account</button>
-      </form>
-
-      <div id="messageArea"></div>
-
-      <div class="nav small">Already have an account? <a href="/static/login.html">Log in</a></div>
-    </div>
-  </div>
+  <h2>Register</h2>
+  <form id="regForm">
+    <label>Email: <input id="email" name="email" type="email" required /></label><br/>
+    <label>Username: <input id="username" name="username" required /></label><br/>
+    <label>Password: <input id="password" name="password" type="password" required /></label><br/>
+    <label>Confirm: <input id="confirm" name="confirm" type="password" required /></label><br/>
+    <button type="submit">Register</button>
+  </form>
+  <div class="msg success" style="display:none"></div>
+  <div class="msg error" style="display:none"></div>
 
   <script>
-    // Elements
-    const form = document.getElementById('registerForm');
-    const email = document.getElementById('email');
-    const username = document.getElementById('username');
-    const password = document.getElementById('password');
-    const confirm = document.getElementById('confirm');
-    const messageArea = document.getElementById('messageArea');
-    const submitBtn = document.getElementById('submitBtn');
-    const serverStatus = document.getElementById('serverStatus');
-
-    function setMessage(text, kind){
-      messageArea.innerHTML = `<div class="msg ${kind}">${text}</div>`;
-    }
-    function clearMessage(){ messageArea.innerHTML = ''; }
-
-    // Health check: ping /openapi.json to verify the server is reachable
-    async function checkServer(){
-      try{
-        const r = await fetch('/openapi.json');
-        if (r.ok){ serverStatus.textContent = 'Server OK'; serverStatus.style.color = '#10b981'; }
-        else { serverStatus.textContent = 'Server error'; serverStatus.style.color = '#f97316'; }
-      }catch(e){ serverStatus.textContent = 'Offline'; serverStatus.style.color = '#ef4444'; }
-    }
-
-    checkServer();
-
-    form.addEventListener('submit', async (e)=>{
+    const form = document.getElementById('regForm');
+    const successEl = document.querySelector('.msg.success');
+    const errorEl = document.querySelector('.msg.error');
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      clearMessage();
-
-      // Client-side checks
-      if (!email.value.includes('@')){ setMessage('Invalid email format', 'error'); return; }
-      if (username.value.length < 3){ setMessage('Username must be at least 3 characters', 'error'); return; }
-      if (password.value.length < 6){ setMessage('Password must be at least 6 characters', 'error'); return; }
-      if (password.value !== confirm.value){ setMessage('Passwords do not match', 'error'); return; }
-
-      submitBtn.disabled = true; submitBtn.textContent = 'Creating...';
+      successEl.style.display='none'; errorEl.style.display='none';
+      const email = document.getElementById('email').value;
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+      if (password !== confirm) { errorEl.textContent='Passwords do not match'; errorEl.style.display='block'; return; }
       try{
-        const res = await fetch('/users/register', {
-          method: 'POST', headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ username: username.value, email: email.value, password: password.value })
-        });
-
-        const text = await res.text();
-        let data = null;
-        try{ data = JSON.parse(text); }catch(e){ data = null; }
-
-        if (res.status === 201){
-          if (data && data.access_token){
-            localStorage.setItem('access_token', data.access_token);
-            setMessage('Registration successful. Token saved to localStorage.<div class="token">' + data.access_token + '</div>', 'success');
-          } else {
-            setMessage('Registration successful. You can now log in.', 'success');
-          }
-        } else {
-          // Show server-provided message if possible
-          const detail = data && (data.detail || data.message) ? (data.detail || data.message) : (text || 'Unknown error');
-          setMessage('Error: ' + detail, 'error');
-        }
-      }catch(err){
-        setMessage('Network error: ' + (err.message || err), 'error');
-      } finally {
-        submitBtn.disabled = false; submitBtn.textContent = 'Create account';
-        checkServer();
-      }
+        const r = await fetch('/users/register', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email, username, password}) });
+        const txt = await r.text();
+        if (!r.ok) { errorEl.textContent = txt; errorEl.style.display='block'; return; }
+        const j = JSON.parse(txt);
+        if (j.access_token) localStorage.setItem('access_token', j.access_token);
+        successEl.textContent = 'Registered'; successEl.style.display='block';
+      }catch(err){ errorEl.textContent = String(err); errorEl.style.display='block'; }
     });
   </script>
 </body>
