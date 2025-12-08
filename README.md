@@ -36,13 +36,22 @@ export JWT_SECRET="replace-with-a-random-secret"
 export ACCESS_TOKEN_EXPIRE_MINUTES=60
 ```
 
-- `DATABASE_URL` — optional. By default the tests (and `conftest.py`) will use a file-backed SQLite DB at `sqlite:///./test.db` for integration tests. To point to a Postgres instance or other DB, set `DATABASE_URL` appropriately (example for Postgres):
+- `DATABASE_URL` — optional. By default the project now uses a file-backed SQLite DB at `sqlite:///./tmp_test.db` for local tests to avoid issues with a checked-in or read-only `test.db`. To point to a Postgres instance or other DB, set `DATABASE_URL` appropriately (example for Postgres):
 
 ```bash
 export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/fastapi_test"
 ```
 
 Note: On CI, the workflow sets `DATABASE_URL` to the service Postgres instance.
+
+Important local note: If your repository contains a committed `test.db` file it can cause intermittent "readonly database" errors in some environments. It's recommended to remove any committed `test.db` and add it to `.gitignore`:
+
+```bash
+git rm --cached test.db || true
+echo "test.db" >> .gitignore
+git add .gitignore
+git commit -m "chore: ignore local test.db (use tmp_test.db for local tests)" || true
+```
 
 **Resetting local test DB**
 
