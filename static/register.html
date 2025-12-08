@@ -14,26 +14,31 @@
     <label>Confirm: <input id="confirm" name="confirm" type="password" required /></label><br/>
     <button type="submit">Register</button>
   </form>
-  <div class="msg success" style="display:none"></div>
-  <div class="msg error" style="display:none"></div>
+  <!-- messages will be inserted dynamically so tests can wait for their appearance -->
 
   <script>
     const form = document.getElementById('regForm');
-    const successEl = document.querySelector('.msg.success');
-    const errorEl = document.querySelector('.msg.error');
+    function ensureMsg(type){
+      let el = document.querySelector('.msg.'+type);
+      if (!el){ el = document.createElement('div'); el.className = 'msg '+type; document.body.appendChild(el); }
+      return el;
+    }
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      successEl.style.display='none'; errorEl.style.display='none';
+      // remove any previous messages
+      const prev = document.querySelectorAll('.msg');
+      prev.forEach(n=>n.remove());
       const email = document.getElementById('email').value;
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const confirm = document.getElementById('confirm').value;
-      if (password !== confirm) { errorEl.textContent='Passwords do not match'; errorEl.style.display='block'; return; }
+      if (password !== confirm) { const errEl = ensureMsg('error'); errEl.textContent='Passwords do not match'; return; }
       try{
         const r = await fetch('/users/register', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email, username, password}) });
         if (!r.ok) {
           const txt = await r.text();
-          errorEl.textContent = txt || `HTTP ${r.status}`; errorEl.style.display='block';
+          const errEl = ensureMsg('error');
+          errEl.textContent = txt || `HTTP ${r.status}`;
           return;
         }
         // treat 2xx as success even if body is empty or not JSON
@@ -41,8 +46,9 @@
           const j = await r.json();
           if (j && j.access_token) localStorage.setItem('access_token', j.access_token);
         }catch(_){ /* ignore non-json body */ }
-        successEl.textContent = 'Registered'; successEl.style.display='block';
-      }catch(err){ errorEl.textContent = String(err || ''); errorEl.style.display='block'; }
+        const successEl = ensureMsg('success');
+        successEl.textContent = 'Registered';
+      }catch(err){ const errEl = ensureMsg('error'); errEl.textContent = String(err || ''); }
     });
   </script>
 </body>

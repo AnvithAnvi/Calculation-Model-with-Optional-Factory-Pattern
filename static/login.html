@@ -12,31 +12,29 @@
     <label>Password: <input id="password" name="password" type="password" required /></label><br/>
     <button type="submit">Login</button>
   </form>
-  <div class="msg success" style="display:none"></div>
-  <div class="msg error" style="display:none"></div>
+  <!-- messages will be inserted dynamically so tests can wait for their appearance -->
 
   <script>
     const form = document.getElementById('loginForm');
-    const successEl = document.querySelector('.msg.success');
-    const errorEl = document.querySelector('.msg.error');
+    function ensureMsg(type){
+      let el = document.querySelector('.msg.'+type);
+      if (!el){ el = document.createElement('div'); el.className = 'msg '+type; document.body.appendChild(el); }
+      return el;
+    }
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      successEl.style.display='none'; errorEl.style.display='none';
+      const prev = document.querySelectorAll('.msg'); prev.forEach(n=>n.remove());
       const username_or_email = document.getElementById('username_or_email').value;
       const password = document.getElementById('password').value;
       try{
         const r = await fetch('/users/login', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username_or_email, password}) });
         if (!r.ok) {
           const txt = await r.text();
-          errorEl.textContent = txt || `HTTP ${r.status}`; errorEl.style.display='block';
-          return;
+          const errEl = ensureMsg('error'); errEl.textContent = txt || `HTTP ${r.status}`; return;
         }
-        try{
-          const j = await r.json();
-          if (j && j.access_token) localStorage.setItem('access_token', j.access_token);
-        }catch(_){ /* ignore non-json body */ }
-        successEl.textContent = 'Logged in'; successEl.style.display='block';
-      }catch(err){ errorEl.textContent = String(err || ''); errorEl.style.display='block'; }
+        try{ const j = await r.json(); if (j && j.access_token) localStorage.setItem('access_token', j.access_token); }catch(_){}
+        const successEl = ensureMsg('success'); successEl.textContent = 'Logged in';
+      }catch(err){ const errEl = ensureMsg('error'); errEl.textContent = String(err || ''); }
     });
   </script>
 </body>
