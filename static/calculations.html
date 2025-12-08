@@ -22,15 +22,22 @@
     <h2>Calculations (BROWSE / ADD / EDIT / DELETE)</h2>
 
     <div>
-      <label>Access Token (paste or set via register/login pages)</label>
-      <input id="token" placeholder="Bearer token or plain token" />
+      <label>Access Token</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div id="tokenDisplay" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:#fafafa">(no token)</div>
+        <button id="showHide" type="button">Show</button>
+        <button id="copyToken" type="button">Copy</button>
+        <button id="editToken" type="button">Edit</button>
+      </div>
       <div style="display:flex;gap:8px;margin-top:6px">
-        <button id="loadToken" type="button">Load token from localStorage</button>
+        <button id="loadToken" type="button">Load token</button>
         <a href="/static/register.html">Register</a>
         <a href="/static/login.html">Login</a>
       </div>
-      <div class="muted">Tip: the token is stored in <code>localStorage.access_token</code> by the sample auth pages.</div>
+      <div class="muted" style="margin-top:6px">Tip: tokens in this demo are stored in <code>localStorage.access_token</code>. Use Load/Edit to manage it.</div>
       <div id="tokenStatus" class="muted" style="margin-top:6px"></div>
+      <!-- hidden input kept for backward compatibility with existing scripts -->
+      <input id="token" type="hidden" />
     </div>
 
     <hr />
@@ -62,35 +69,43 @@
 
   <script>
     const tokenInput = document.getElementById('token');
+    const tokenDisplay = document.getElementById('tokenDisplay');
     const tokenStatus = document.getElementById('tokenStatus');
-    const stored = localStorage.getItem('access_token');
-    if (stored) tokenInput.value = stored;
+    const showHide = document.getElementById('showHide');
+    const copyBtn = document.getElementById('copyToken');
+    const editBtn = document.getElementById('editToken');
+    const loadBtn = document.getElementById('loadToken');
 
-    function updateTokenStatus(){
-      const v = (tokenInput.value || '').trim();
-      if (!v) tokenStatus.textContent = 'No token present — please register or login, then click "Load token from localStorage".';
-      else tokenStatus.textContent = `Token present (${v.length} chars)`;
+    function getStored(){ return (localStorage.getItem('access_token') || '').trim(); }
+    function setStored(v){ if (v) localStorage.setItem('access_token', v); else localStorage.removeItem('access_token'); tokenInput.value = v || ''; updateUI(); }
+
+    tokenInput.value = getStored();
+
+    let revealed = false;
+    function masked(t){ if (!t) return '(no token)'; if (t.length <= 12) return t; return t.slice(0,6) + '…' + t.slice(-6); }
+    function updateUI(){
+      const v = tokenInput.value || '';
+      tokenDisplay.textContent = revealed ? v : masked(v);
+      tokenStatus.textContent = v ? `Token present (${v.length} chars)` : 'No token present';
+      showHide.textContent = v ? (revealed ? 'Hide' : 'Show') : 'Show';
     }
-    updateTokenStatus();
+    updateUI();
 
-    tokenInput.addEventListener('change', ()=>{
-      const v = tokenInput.value.trim();
-      if (v) localStorage.setItem('access_token', v);
-      else localStorage.removeItem('access_token');
-      updateTokenStatus();
+    showHide.addEventListener('click', ()=>{ revealed = !revealed; updateUI(); });
+    copyBtn.addEventListener('click', async ()=>{
+      const v = tokenInput.value || '';
+      if (!v) { alert('No token to copy'); return; }
+      try{ await navigator.clipboard.writeText(v); alert('Token copied to clipboard'); }catch(e){ alert('Copy failed: '+e); }
     });
-
-    document.getElementById('loadToken').addEventListener('click', ()=>{
-      const s = localStorage.getItem('access_token');
-      if (s){ tokenInput.value = s; updateTokenStatus(); alert('Loaded token from localStorage'); }
-      else { alert('No token in localStorage (key: access_token). Please register/login first.'); }
+    editBtn.addEventListener('click', ()=>{
+      const cur = tokenInput.value || '';
+      const val = prompt('Paste or edit token:', cur);
+      if (val === null) return;
+      setStored(val.trim());
+      alert('Token updated');
     });
-
-    document.getElementById('clearLocal').addEventListener('click', ()=>{
-      localStorage.removeItem('access_token'); tokenInput.value='';
-      updateTokenStatus();
-      alert('Token cleared');
-    });
+    loadBtn.addEventListener('click', ()=>{ const s = getStored(); if (s){ tokenInput.value = s; updateUI(); alert('Loaded token from localStorage'); } else { alert('No token in localStorage (key: access_token).'); } });
+    document.getElementById('clearLocal').addEventListener('click', ()=>{ setStored(''); alert('Token cleared'); });
 
     async function authFetch(url, opts={}){
       const token = localStorage.getItem('access_token') || tokenInput.value.trim();
