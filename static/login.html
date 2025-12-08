@@ -1,41 +1,93 @@
 <!doctype html>
+<!doctype html>
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Login</title>
-  <style>body{font-family:system-ui,Arial;margin:20px}.msg{margin-top:8px}.msg.success{color:green}.msg.error{color:#b00020}</style>
+  <title>Login — Calculator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{--bg:#f7f7f8;--card:#fff;--accent:#2563eb;--muted:#666}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:#111}
+    .center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{width:100%;max-width:420px;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+    h1{margin:0 0 8px;font-size:20px}
+    p.lead{margin:0 0 16px;color:var(--muted)}
+    label{display:block;margin-top:12px;font-size:14px}
+    input{width:100%;padding:10px;border:1px solid #e6e9ee;border-radius:8px;margin-top:6px}
+    button{background:var(--accent);color:white;border:none;padding:10px 12px;border-radius:8px;cursor:pointer}
+    .muted{color:var(--muted);font-size:13px}
+    .msg{margin-top:12px;padding:10px;border-radius:8px}
+    .msg.success{background:#ecfdf5;color:#065f46}
+    .msg.error{background:#fff1f2;color:#9f1239}
+    .tokenBox{display:flex;gap:8px;align-items:center;margin-top:12px}
+    .tokenMask{flex:1;padding:8px;border:1px dashed #e6e9ee;border-radius:8px;background:#fbfcfe;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+    a.inline{color:var(--accent);text-decoration:none}
+  </style>
 </head>
 <body>
-  <h2>Login</h2>
-  <form id="loginForm">
-    <label>Username or Email: <input id="username_or_email" name="username_or_email" required /></label><br/>
-    <label>Password: <input id="password" name="password" type="password" required /></label><br/>
-    <button type="submit">Login</button>
-  </form>
-  <!-- messages will be inserted dynamically so tests can wait for their appearance -->
+  <div class="center">
+    <div class="card">
+      <h1>Sign in</h1>
+      <p class="lead">Use your username or email to get a token for the demo.</p>
+
+      <form id="loginForm">
+        <label>Username or Email
+          <input id="username_or_email" name="username_or_email" required placeholder="username or email" />
+        </label>
+
+        <label>Password
+          <input id="password" name="password" type="password" required placeholder="password" />
+        </label>
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button id="submitBtn" type="submit">Login</button>
+          <a class="inline" href="/static/register.html" style="align-self:center">Create account</a>
+        </div>
+      </form>
+
+      <div id="messages"></div>
+
+      <div class="tokenBox" id="tokenBox" style="display:none">
+        <div class="tokenMask" id="tokenMask">(token)</div>
+        <button id="copyTokenBtn" type="button">Copy</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     const form = document.getElementById('loginForm');
-    function ensureMsg(type){
-      let el = document.querySelector('.msg.'+type);
-      if (!el){ el = document.createElement('div'); el.className = 'msg '+type; document.body.appendChild(el); }
-      return el;
+    const messages = document.getElementById('messages');
+    const tokenBox = document.getElementById('tokenBox');
+    const tokenMask = document.getElementById('tokenMask');
+    const copyTokenBtn = document.getElementById('copyTokenBtn');
+
+    function showMessage(type, text){
+      messages.innerHTML = '';
+      const d = document.createElement('div'); d.className = 'msg ' + (type==='ok' ? 'success' : 'error');
+      d.textContent = text; messages.appendChild(d);
+      // keep legacy selectors for e2e expectations
+      if (type==='ok') d.classList.add('msg','success'); else d.classList.add('msg','error');
     }
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const prev = document.querySelectorAll('.msg'); prev.forEach(n=>n.remove());
-      const username_or_email = document.getElementById('username_or_email').value;
+
+    copyTokenBtn.addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(localStorage.getItem('access_token')||''); alert('Token copied'); }catch(e){ alert('Copy failed'); }
+    });
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault(); messages.innerHTML=''; tokenBox.style.display='none';
+      const username_or_email = document.getElementById('username_or_email').value.trim();
       const password = document.getElementById('password').value;
       try{
-        const r = await fetch('/users/login', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username_or_email, password}) });
-        if (!r.ok) {
-          const txt = await r.text();
-          const errEl = ensureMsg('error'); errEl.textContent = txt || `HTTP ${r.status}`; return;
-        }
-        try{ const j = await r.json(); if (j && j.access_token) localStorage.setItem('access_token', j.access_token); }catch(_){}
-        const successEl = ensureMsg('success'); successEl.textContent = 'Logged in';
-      }catch(err){ const errEl = ensureMsg('error'); errEl.textContent = String(err || ''); }
+        const r = await fetch('/users/login',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username_or_email, password}) });
+        const txt = await r.text();
+        if (!r.ok){ showMessage('err', txt || ('Error '+r.status)); return; }
+        try{ const j = JSON.parse(txt); if (j.access_token){ localStorage.setItem('access_token', j.access_token); tokenMask.textContent = j.access_token; tokenBox.style.display='flex'; } }catch(_){ }
+        showMessage('ok','Logged in');
+      }catch(err){ showMessage('err','Network error'); }
     });
+  </script>
+</body>
+</html>
   </script>
 </body>
 </html>

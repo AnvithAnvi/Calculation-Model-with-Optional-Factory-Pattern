@@ -6,48 +6,111 @@
   <style>body{font-family:system-ui,Arial;margin:20px}.msg{margin-top:8px}.msg.success{color:green}.msg.error{color:#b00020}</style>
 </head>
 <body>
-  <h2>Register</h2>
-  <form id="regForm">
-    <label>Email: <input id="email" name="email" type="email" required /></label><br/>
-    <label>Username: <input id="username" name="username" required /></label><br/>
-    <label>Password: <input id="password" name="password" type="password" required /></label><br/>
-    <label>Confirm: <input id="confirm" name="confirm" type="password" required /></label><br/>
-    <button type="submit">Register</button>
-  </form>
-  <!-- messages will be inserted dynamically so tests can wait for their appearance -->
+  <!doctype html>
+  <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Register — Calculator</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+      :root{--bg:#f7f7f8;--card:#fff;--accent:#2563eb;--muted:#666}
+      body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:#111}
+      .center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+      .card{width:100%;max-width:520px;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+      h1{margin:0 0 8px;font-size:20px}
+      p.lead{margin:0 0 16px;color:var(--muted)}
+      label{display:block;margin-top:12px;font-size:14px}
+      input{width:100%;padding:10px;border:1px solid #e6e9ee;border-radius:8px;margin-top:6px}
+      button{background:var(--accent);color:white;border:none;padding:10px 12px;border-radius:8px;cursor:pointer}
+      .row{display:flex;gap:8px;margin-top:12px}
+      .muted{color:var(--muted);font-size:13px}
+      .msg{margin-top:12px;padding:10px;border-radius:8px}
+      .msg.success{background:#ecfdf5;color:#065f46}
+      .msg.error{background:#fff1f2;color:#9f1239}
+      .tokenBox{display:flex;gap:8px;align-items:center;margin-top:12px}
+      .tokenMask{flex:1;padding:8px;border:1px dashed #e6e9ee;border-radius:8px;background:#fbfcfe;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+      a.inline{color:var(--accent);text-decoration:none}
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <div class="card">
+        <h1>Create account</h1>
+        <p class="lead">Register to get a token for the calculator BREAD demo.</p>
 
-  <script>
-    const form = document.getElementById('regForm');
-    function ensureMsg(type){
-      let el = document.querySelector('.msg.'+type);
-      if (!el){ el = document.createElement('div'); el.className = 'msg '+type; document.body.appendChild(el); }
-      return el;
-    }
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      // remove any previous messages
-      const prev = document.querySelectorAll('.msg');
-      prev.forEach(n=>n.remove());
-      const email = document.getElementById('email').value;
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const confirm = document.getElementById('confirm').value;
-      if (password !== confirm) { const errEl = ensureMsg('error'); errEl.textContent='Passwords do not match'; return; }
-      try{
-        const r = await fetch('/users/register', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email, username, password}) });
-        if (!r.ok) {
-          const txt = await r.text();
-          const errEl = ensureMsg('error');
-          errEl.textContent = txt || `HTTP ${r.status}`;
-          return;
-        }
-        // treat 2xx as success even if body is empty or not JSON
+        <form id="regForm">
+          <label>Email
+            <input id="email" name="email" type="email" required placeholder="you@example.com" />
+          </label>
+
+          <label>Username
+            <input id="username" name="username" required placeholder="username" />
+          </label>
+
+          <label>Password
+            <input id="password" name="password" type="password" required minlength="6" placeholder="at least 6 characters" />
+          </label>
+
+          <label>Confirm password
+            <input id="confirm" name="confirm" type="password" required minlength="6" placeholder="repeat password" />
+          </label>
+
+          <div class="row">
+            <button id="submitBtn" type="submit">Register</button>
+            <a class="inline" href="/static/login.html" style="align-self:center">Sign in</a>
+          </div>
+        </form>
+
+        <div id="messages"></div>
+
+        <div class="tokenBox" id="tokenBox" style="display:none">
+          <div class="tokenMask" id="tokenMask">(token)</div>
+          <button id="copyTokenBtn" type="button">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('regForm');
+      const messages = document.getElementById('messages');
+      const tokenBox = document.getElementById('tokenBox');
+      const tokenMask = document.getElementById('tokenMask');
+      const copyTokenBtn = document.getElementById('copyTokenBtn');
+
+      function showMessage(type, text){
+        messages.innerHTML = '';
+        const d = document.createElement('div'); d.className = 'msg ' + (type==='ok' ? 'success' : 'error');
+        d.textContent = text; d.classList.add(type==='ok' ? 'msg-success' : 'msg-error');
+        d.classList.add(type==='ok' ? 'success' : 'error');
+        // also keep selectors compatible
+        if (type==='ok') d.classList.add('msg','success'); else d.classList.add('msg','error');
+        messages.appendChild(d);
+      }
+
+      copyTokenBtn.addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(localStorage.getItem('access_token')||''); alert('Token copied'); }catch(e){ alert('Copy failed'); }
+      });
+
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault(); messages.innerHTML=''; tokenBox.style.display='none';
+        const email = document.getElementById('email').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('confirm').value;
+        if (password !== confirm){ showMessage('err','Passwords do not match'); return; }
+        if (password.length < 6){ showMessage('err','Password too short'); return; }
+
         try{
-          const j = await r.json();
-          if (j && j.access_token) localStorage.setItem('access_token', j.access_token);
-        }catch(_){ /* ignore non-json body */ }
-        const successEl = ensureMsg('success');
-        successEl.textContent = 'Registered';
+          const r = await fetch('/users/register',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username, email, password}) });
+          const txt = await r.text();
+          if (!r.ok){ showMessage('err', txt || ('Error '+r.status)); return; }
+          try{ const j = JSON.parse(txt); if (j.access_token){ localStorage.setItem('access_token', j.access_token); tokenMask.textContent = j.access_token; tokenBox.style.display='flex'; } }catch(_){ }
+          showMessage('ok','Registered successfully');
+        }catch(err){ showMessage('err','Network error'); }
+      });
+    </script>
+  </body>
+  </html>
       }catch(err){ const errEl = ensureMsg('error'); errEl.textContent = String(err || ''); }
     });
   </script>
