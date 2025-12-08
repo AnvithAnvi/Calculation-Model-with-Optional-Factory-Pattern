@@ -35,7 +35,17 @@ def test_calculations_bread_positive_and_negative():
             browser = p.chromium.launch()
             page = browser.new_page()
             # ensure page has same-origin so fetch() works reliably
-            page.goto('http://127.0.0.1:8000/docs')
+            # Retry goto a few times to tolerate transient connection races
+            for _ in range(8):
+                try:
+                    page.goto('http://127.0.0.1:8000/docs')
+                    break
+                except Exception:
+                    import time as _t
+                    _t.sleep(0.25)
+            else:
+                # last attempt (let exception bubble)
+                page.goto('http://127.0.0.1:8000/docs')
 
             # Register via API and obtain token
             email = _unique_email()
