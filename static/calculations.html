@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Calculations - BREAD</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Arial;margin:20px}
+    .card{max-width:760px;margin:0 auto;padding:20px;border:1px solid #eee;border-radius:8px}
+    label{display:block;margin-top:8px}
+    input,select,button{padding:8px;margin-top:6px;width:100%;box-sizing:border-box}
+    .row{display:flex;gap:8px}
+    .row > *{flex:1}
+    .list{margin-top:16px}
+    .calc{border-bottom:1px solid #f0f0f0;padding:8px 0}
+    .muted{color:#666;font-size:0.9em}
+    .error{color:#b00020}
+    .success{color:#006400}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Calculations (BROWSE / ADD / EDIT / DELETE)</h2>
+
+    <div>
+      <label>Access Token (paste or set via register/login pages)</label>
+      <input id="token" placeholder="Bearer token or plain token" />
+      <div class="muted">Tip: the token is stored in <code>localStorage.access_token</code> by the sample auth pages.</div>
+    </div>
+
+    <hr />
+    <h3>Create Calculation</h3>
+    <div>
+      <label>a (number)</label>
+      <input id="a" type="number" step="any" />
+      <label>b (number)</label>
+      <input id="b" type="number" step="any" />
+      <label>Operation</label>
+      <select id="type">
+        <option value="add">add</option>
+        <option value="subtract">subtract</option>
+        <option value="multiply">multiply</option>
+        <option value="divide">divide</option>
+      </select>
+      <button id="create">Create</button>
+      <div id="createMsg"></div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <button id="list">Refresh List</button>
+      <button id="clearLocal">Clear Token</button>
+    </div>
+
+    <div class="list" id="listArea"></div>
+  </div>
+
+  <script>
+    const tokenInput = document.getElementById('token');
+    const stored = localStorage.getItem('access_token');
+    if (stored) tokenInput.value = stored;
+
+    tokenInput.addEventListener('change', ()=>{
+      const v = tokenInput.value.trim();
+      if (v) localStorage.setItem('access_token', v);
+      else localStorage.removeItem('access_token');
+    });
+
+    document.getElementById('clearLocal').addEventListener('click', ()=>{
+      localStorage.removeItem('access_token'); tokenInput.value='';
+      alert('Token cleared');
+    });
+
+    async function authFetch(url, opts={}){
+      const token = localStorage.getItem('access_token') || tokenInput.value.trim();
+      opts.headers = opts.headers || {};
+      if (token) opts.headers['Authorization'] = token.startsWith('Bearer ') ? token : 'Bearer '+token;
+      const r = await fetch(url, opts);
+      const text = await r.text();
+      try{ return { ok: r.ok, status: r.status, json: JSON.parse(text), text }; }catch(e){ return { ok: r.ok, status: r.status, text }; }
+    }
+
+    document.getElementById('create').addEventListener('click', async ()=>{
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const type = document.getElementById('type').value;
+      const msg = document.getElementById('createMsg');
+      msg.textContent='';
+      if (Number.isNaN(a) || Number.isNaN(b)) { msg.textContent='a and b must be numbers'; msg.className='error'; return; }
+      if (type==='divide' && b===0){ msg.textContent='b cannot be zero for divide'; msg.className='error'; return; }
+      const res = await authFetch('/calculations', { method: 'POST', body: JSON.stringify({a,b,type}), headers: {'Content-Type':'application/json'} });
+      if (!res.ok) { msg.textContent = `Error ${res.status}: ${res.text || JSON.stringify(res.json)}`; msg.className='error'; return; }
+      msg.textContent='Created id='+res.json.id+' result='+res.json.result; msg.className='success';
+      loadList();
+    });
+
+    async function loadList(){
+      const out = document.getElementById('listArea');
+      out.innerHTML = 'Loading...';
+      const res = await authFetch('/calculations');
+      if (!res.ok){ out.innerHTML = '<div class="error">Error '+res.status+': '+(res.text||'')+'</div>'; return; }
+      const arr = res.json || [];
+      if (!arr.length) { out.innerHTML = '<div class="muted">No calculations yet</div>'; return; }
+      out.innerHTML = '';
+      for(const c of arr){
+        const div = document.createElement('div'); div.className='calc';
+        div.innerHTML = `<div><strong>#${c.id}</strong> ${c.a} ${c.type} ${c.b} = <em>${c.result}</em></div>
+          <div class="muted">${c.timestamp}</div>
+          <div style="margin-top:8px"><button data-id="${c.id}" class="edit">Edit</button> <button data-id="${c.id}" class="del">Delete</button></div>`;
+        out.appendChild(div);
+      }
+
+      // attach handlers
+      for(const btn of document.querySelectorAll('.del')){
+        btn.onclick = async (e)=>{
+          const id = e.target.dataset.id;
+          if (!confirm('Delete calculation #'+id+'?')) return;
+          const res = await authFetch('/calculations/'+id, { method: 'DELETE' });
+          if (!res.ok) alert('Delete failed: '+res.status+' '+res.text);
+          else loadList();
+        };
+      }
+
+      for(const btn of document.querySelectorAll('.edit')){
+        btn.onclick = async (e)=>{
+          const id = e.target.dataset.id;
+          const a = prompt('New a value'); if (a===null) return;
+          const b = prompt('New b value'); if (b===null) return;
+          const type = prompt('New type (add,subtract,multiply,divide)'); if (type===null) return;
+          const na = parseFloat(a), nb = parseFloat(b);
+          if (Number.isNaN(na) || Number.isNaN(nb)){ alert('Invalid numbers'); return; }
+          const res = await authFetch('/calculations/'+id, { method: 'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({a:na,b:nb,type}) });
+          if (!res.ok) alert('Update failed: '+res.status+' '+res.text);
+          else loadList();
+        };
+      }
+    }
+
+    document.getElementById('list').addEventListener('click', loadList);
+    // auto-load
+    window.addEventListener('load', loadList);
+  </script>
+</body>
+</html>
