@@ -31,12 +31,18 @@
       if (password !== confirm) { errorEl.textContent='Passwords do not match'; errorEl.style.display='block'; return; }
       try{
         const r = await fetch('/users/register', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email, username, password}) });
-        const txt = await r.text();
-        if (!r.ok) { errorEl.textContent = txt; errorEl.style.display='block'; return; }
-        const j = JSON.parse(txt);
-        if (j.access_token) localStorage.setItem('access_token', j.access_token);
+        if (!r.ok) {
+          const txt = await r.text();
+          errorEl.textContent = txt || `HTTP ${r.status}`; errorEl.style.display='block';
+          return;
+        }
+        // treat 2xx as success even if body is empty or not JSON
+        try{
+          const j = await r.json();
+          if (j && j.access_token) localStorage.setItem('access_token', j.access_token);
+        }catch(_){ /* ignore non-json body */ }
         successEl.textContent = 'Registered'; successEl.style.display='block';
-      }catch(err){ errorEl.textContent = String(err); errorEl.style.display='block'; }
+      }catch(err){ errorEl.textContent = String(err || ''); errorEl.style.display='block'; }
     });
   </script>
 </body>
