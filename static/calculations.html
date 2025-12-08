@@ -24,7 +24,13 @@
     <div>
       <label>Access Token (paste or set via register/login pages)</label>
       <input id="token" placeholder="Bearer token or plain token" />
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button id="loadToken" type="button">Load token from localStorage</button>
+        <a href="/static/register.html">Register</a>
+        <a href="/static/login.html">Login</a>
+      </div>
       <div class="muted">Tip: the token is stored in <code>localStorage.access_token</code> by the sample auth pages.</div>
+      <div id="tokenStatus" class="muted" style="margin-top:6px"></div>
     </div>
 
     <hr />
@@ -56,17 +62,33 @@
 
   <script>
     const tokenInput = document.getElementById('token');
+    const tokenStatus = document.getElementById('tokenStatus');
     const stored = localStorage.getItem('access_token');
     if (stored) tokenInput.value = stored;
+
+    function updateTokenStatus(){
+      const v = (tokenInput.value || '').trim();
+      if (!v) tokenStatus.textContent = 'No token present — please register or login, then click "Load token from localStorage".';
+      else tokenStatus.textContent = `Token present (${v.length} chars)`;
+    }
+    updateTokenStatus();
 
     tokenInput.addEventListener('change', ()=>{
       const v = tokenInput.value.trim();
       if (v) localStorage.setItem('access_token', v);
       else localStorage.removeItem('access_token');
+      updateTokenStatus();
+    });
+
+    document.getElementById('loadToken').addEventListener('click', ()=>{
+      const s = localStorage.getItem('access_token');
+      if (s){ tokenInput.value = s; updateTokenStatus(); alert('Loaded token from localStorage'); }
+      else { alert('No token in localStorage (key: access_token). Please register/login first.'); }
     });
 
     document.getElementById('clearLocal').addEventListener('click', ()=>{
       localStorage.removeItem('access_token'); tokenInput.value='';
+      updateTokenStatus();
       alert('Token cleared');
     });
 
