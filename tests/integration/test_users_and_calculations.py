@@ -78,6 +78,30 @@ def test_calculation_bread():
     assert r5.json()["detail"] == "deleted"
 
 
+def test_modulus_and_exponent_operations():
+    # create a fresh user and login to get token
+    import uuid
+    suffix = uuid.uuid4().hex[:8]
+    username = f"op_user_{suffix}"
+    email = f"{username}@example.com"
+    reg = client.post("/users/register", json={"username": username, "email": email, "password": "strongpassword"})
+    assert reg.status_code == 201
+    r_login = client.post("/users/login", json={"username_or_email": username, "password": "strongpassword"})
+    assert r_login.status_code == 200
+    token = r_login.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # modulus
+    r_mod = client.post("/calculations", json={"a": 10, "b": 3, "type": "modulus"}, headers=headers)
+    assert r_mod.status_code == 201
+    assert r_mod.json()["result"] == 1
+
+    # exponent
+    r_pow = client.post("/calculations", json={"a": 2, "b": 5, "type": "exponent"}, headers=headers)
+    assert r_pow.status_code == 201
+    assert r_pow.json()["result"] == 32
+
+
 def test_invalid_division_returns_error():
     # create a fresh user and login to get token
     import uuid

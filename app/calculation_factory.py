@@ -1,5 +1,5 @@
 # app/calculation_factory.py
-from app.operations import add, subtract, multiply, divide
+from app.operations import add, subtract, multiply, divide, modulus, exponent
 from app.schemas import OperationType
 
 class CalculationFactory:
@@ -21,5 +21,9 @@ class CalculationFactory:
             return multiply(a, b)
         elif operation == OperationType.DIVIDE:
             return divide(a, b)
+        elif operation == OperationType.MODULUS:
+            return modulus(a, b)
+        elif operation == OperationType.EXPONENT:
+            return exponent(a, b)
         else:
             raise ValueError(f"Unknown operation type: {operation}")

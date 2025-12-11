@@ -9,6 +9,8 @@ class OperationType(str, Enum):
     SUBTRACT = "subtract"
     MULTIPLY = "multiply"
     DIVIDE = "divide"
+    MODULUS = "modulus"
+    EXPONENT = "exponent"
 
 # --- User Schemas ---
 class UserCreate(BaseModel):

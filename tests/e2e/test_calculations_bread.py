@@ -70,6 +70,20 @@ def test_calculations_bread_positive_and_negative():
             calc_id = calc['id']
             assert calc['result'] == 6
 
+            # create modulus
+            create_mod = page.evaluate(
+                "async () => { const r = await fetch('http://127.0.0.1:8000/calculations', {method:'POST', headers:{'Content-Type':'application/json','Authorization': 'Bearer '+localStorage.getItem('access_token')}, body: JSON.stringify({a:10,b:3,type:'modulus'})}); return {status: r.status, body: await r.json()}; }"
+            )
+            assert create_mod['status'] == 201
+            assert create_mod['body']['result'] == 1
+
+            # create exponent
+            create_pow = page.evaluate(
+                "async () => { const r = await fetch('http://127.0.0.1:8000/calculations', {method:'POST', headers:{'Content-Type':'application/json','Authorization': 'Bearer '+localStorage.getItem('access_token')}, body: JSON.stringify({a:2,b:5,type:'exponent'})}); return {status: r.status, body: await r.json()}; }"
+            )
+            assert create_pow['status'] == 201
+            assert create_pow['body']['result'] == 32
+
             # Browse list
             listing = page.evaluate("async () => { const r = await fetch('http://127.0.0.1:8000/calculations', {headers:{'Authorization': 'Bearer '+localStorage.getItem('access_token')}}); return {status: r.status, body: await r.json()}; }")
             assert listing['status'] == 200

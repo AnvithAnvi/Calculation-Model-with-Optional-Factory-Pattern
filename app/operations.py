@@ -18,3 +18,17 @@ def divide(x: float, y: float) -> float:
         raise ZeroDivisionError("Cannot divide by zero")
     logger.info(f"Dividing {x} / {y}")
     return x / y
+
+
+def modulus(x: float, y: float) -> float:
+    if y == 0:
+        logger.error("Modulus by zero attempted")
+        raise ZeroDivisionError("Cannot perform modulus by zero")
+    logger.info(f"Modulus {x} % {y}")
+    return x % y
+
+
+def exponent(x: float, y: float) -> float:
+    # exponentiation: x ** y
+    logger.info(f"Exponent {x} ** {y}")
+    return x ** y

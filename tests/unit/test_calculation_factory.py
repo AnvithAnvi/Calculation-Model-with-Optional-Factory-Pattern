@@ -22,3 +22,13 @@ def test_factory_divide():
 def test_factory_divide_by_zero():
     with pytest.raises(ZeroDivisionError):
         CalculationFactory.calculate(10, 0, OperationType.DIVIDE)
+
+
+def test_factory_modulus():
+    result = CalculationFactory.calculate(10, 3, OperationType.MODULUS)
+    assert result == 1
+
+
+def test_factory_exponent():
+    result = CalculationFactory.calculate(2, 5, OperationType.EXPONENT)
+    assert result == 32

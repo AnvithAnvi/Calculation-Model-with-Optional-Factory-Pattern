@@ -53,6 +53,8 @@
         <option value="subtract">subtract</option>
         <option value="multiply">multiply</option>
         <option value="divide">divide</option>
+        <option value="modulus">modulus</option>
+        <option value="exponent">exponent</option>
       </select>
       <button id="create">Create</button>
       <div id="createMsg"></div>
@@ -123,7 +125,7 @@
       const msg = document.getElementById('createMsg');
       msg.textContent='';
       if (Number.isNaN(a) || Number.isNaN(b)) { msg.textContent='a and b must be numbers'; msg.className='error'; return; }
-      if (type==='divide' && b===0){ msg.textContent='b cannot be zero for divide'; msg.className='error'; return; }
+      if ((type==='divide' || type==='modulus') && b===0){ msg.textContent='b cannot be zero for divide or modulus'; msg.className='error'; return; }
       const res = await authFetch('/calculations', { method: 'POST', body: JSON.stringify({a,b,type}), headers: {'Content-Type':'application/json'} });
       if (!res.ok) { msg.textContent = `Error ${res.status}: ${res.text || JSON.stringify(res.json)}`; msg.className='error'; return; }
       msg.textContent='Created id='+res.json.id+' result='+res.json.result; msg.className='success';
@@ -162,7 +164,7 @@
           const id = e.target.dataset.id;
           const a = prompt('New a value'); if (a===null) return;
           const b = prompt('New b value'); if (b===null) return;
-          const type = prompt('New type (add,subtract,multiply,divide)'); if (type===null) return;
+          const type = prompt('New type (add,subtract,multiply,divide,modulus,exponent)'); if (type===null) return;
           const na = parseFloat(a), nb = parseFloat(b);
           if (Number.isNaN(na) || Number.isNaN(nb)){ alert('Invalid numbers'); return; }
           const res = await authFetch('/calculations/'+id, { method: 'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({a:na,b:nb,type}) });
