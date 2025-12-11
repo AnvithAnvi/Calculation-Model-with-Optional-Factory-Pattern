@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from app.database import Base, engine, get_db
 from app.models import Calculation, User
-from app.schemas import UserCreate, UserRead, CalculationCreate, CalculationRead, OperationType
+from app.schemas import UserCreate, UserRead, UserUpdate, PasswordChange, CalculationCreate, CalculationRead, OperationType
 from app.security import hash_password, verify_password, create_access_token, decode_access_token
 from app.models import Calculation, User
 from app.models import SessionToken
@@ -200,6 +200,42 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
     db.commit()
 
     return {"access_token": token, "token_type": "bearer", "user_id": u.id}
+
+
+# ---------- User profile endpoints ----------
+@app.get("/users/me", response_model=UserRead)
+def read_profile(current_user: User = Depends(get_current_user)):
+    return current_user
+
+
+@app.put("/users/me", response_model=UserRead)
+def update_profile(payload: UserUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    # Check uniqueness if username/email provided
+    if payload.username and payload.username != current_user.username:
+        if db.query(User).filter(User.username == payload.username).first():
+            raise HTTPException(status_code=400, detail="Username already taken")
+        current_user.username = payload.username
+    if payload.email and payload.email != current_user.email:
+        if db.query(User).filter(User.email == payload.email).first():
+            raise HTTPException(status_code=400, detail="Email already in use")
+        current_user.email = payload.email
+
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+    return current_user
+
+
+@app.post("/users/me/password")
+def change_password(payload: PasswordChange, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    # Verify current password
+    if not verify_password(payload.current_password, current_user.password_hash):
+        raise HTTPException(status_code=401, detail="Invalid current password")
+    # Hash and set new password
+    current_user.password_hash = hash_password(payload.new_password)
+    db.add(current_user)
+    db.commit()
+    return {"detail": "password updated"}
 
 
 # ---------- Legacy Support Schemas ----------

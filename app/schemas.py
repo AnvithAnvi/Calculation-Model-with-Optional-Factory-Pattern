@@ -16,6 +16,16 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: constr(min_length=6, max_length=72)
 
+
+class UserUpdate(BaseModel):
+    username: constr(min_length=3, max_length=50) | None = None
+    email: EmailStr | None = None
+
+
+class PasswordChange(BaseModel):
+    current_password: constr(min_length=1)
+    new_password: constr(min_length=6, max_length=72)
+
 class UserRead(BaseModel):
     id: int
     username: str
