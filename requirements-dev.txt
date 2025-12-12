@@ -1,6 +1,7 @@
 # Development / test dependencies
 pytest>=6.0.0
 pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
 pytest-playwright>=0.1.2
 httpx>=0.28.1
 playwright>=1.56.0
