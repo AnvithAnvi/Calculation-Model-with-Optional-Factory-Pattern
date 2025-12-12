@@ -153,8 +153,6 @@ xdg-open htmlcov/index.html
 
 ## 📋 Environment Variables
 
-## 📋 Environment Variables
-
 - `JWT_SECRET` — **Required** for JWT token creation/verification. Example:
 
 ```bash
@@ -263,8 +261,6 @@ rm -f test.db
 
 ## 🚢 CI/CD & GitHub Actions
 
-## 🚢 CI/CD & GitHub Actions
-
 The repository includes automated CI/CD workflows:
 
 - **Automated Testing:** Runs unit, integration, and e2e tests on every push
@@ -350,8 +346,6 @@ Current coverage: **94%** with **94 passing tests**
 
 ## 📝 Quick Command Reference
 
-## 📝 Quick Command Reference
-
 ```bash
 # Setup
 python3 -m venv .venv
@@ -393,12 +387,6 @@ rm -f test.db tmp_test.db                                    # Clean test databa
 5. Commit your changes: `git commit -m "Add your feature"`
 6. Push to the branch: `git push origin feature/your-feature`
 7. Create a Pull Request
-
----
-
-## 📄 License
-
-This project is for educational purposes.
 
 ---
 
