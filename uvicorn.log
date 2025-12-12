@@ -1,0 +1,1039 @@
+INFO:     Started server process [20734]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50426 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50427 - "GET /static/register.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50428 - "GET /static/login.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50429 - "GET /static/calculations.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50430 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50486 - "GET /static/login.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50486 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50487 - "POST /users/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50492 - "GET /static/calculations.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50492 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50493 - "POST /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50493 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50493 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50493 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50493 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50493 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50496 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50526 - "GET /static/register.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50527 - "POST /users/register HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50531 - "GET /static/login.html HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50532 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50535 - "GET /static/calculations.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50535 - "GET /calculations HTTP/1.1" 200 OK
+2025-12-07 20:58:06,757 - app.logger_config - INFO - Adding 1.0 + 2.0
+INFO:     127.0.0.1:50536 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50536 - "GET /calculations HTTP/1.1" 200 OK
+2025-12-07 20:58:14,333 - app.logger_config - INFO - Adding 1.0 + 45.0
+INFO:     127.0.0.1:50538 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50538 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50538 - "DELETE /calculations/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50538 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50563 - "GET /static/login.html HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50563 - "GET /static/login.html HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50563 - "GET /static/register.html HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50589 - "GET /static/calculations.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50589 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50589 - "GET /static/calculations.html HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50589 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50589 - "GET /static/calculations.html HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50589 - "GET /calculations HTTP/1.1" 200 OK
+2025-12-07 21:02:15,851 - app.logger_config - INFO - Adding 1.0 + 2.0
+INFO:     127.0.0.1:50590 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50590 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50590 - "DELETE /calculations/9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50590 - "GET /calculations HTTP/1.1" 200 OK
+2025-12-07 21:02:29,489 - app.logger_config - INFO - Subtracting 5.0 - 2.0
+INFO:     127.0.0.1:50594 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50594 - "GET /calculations HTTP/1.1" 200 OK
+2025-12-07 21:02:40,162 - app.logger_config - INFO - Multiplying 5.0 * 2.0
+INFO:     127.0.0.1:50598 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50598 - "GET /calculations HTTP/1.1" 200 OK
+2025-12-07 21:02:47,268 - app.logger_config - INFO - Dividing 5.0 / 2.0
+INFO:     127.0.0.1:50599 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50599 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50619 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50620 - "GET /static/register.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50620 - "POST /users/register HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 148, in register_user
+    db_user = create_user(user, db)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 131, in create_user
+    db.commit()
+    ~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('u_45d0384c', 'test+50aab4a2@example.com', '$2b$12$BkxnjzQz4VOut5yWEZYN3eRJV0icU/9T1LhljAggswvn/cyn4ihm.', '2025-12-08 02:03:24.905388')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:50621 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50622 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50622 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50622 - "POST /users/register HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 148, in register_user
+    db_user = create_user(user, db)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 131, in create_user
+    db.commit()
+    ~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('test+f2f0d0cb', 'test+f2f0d0cb@example.com', '$2b$12$WKJzbYOheQSTD2WQuzqKu.SYoEZa31fJO0ITjlrX2krJk7J5m00Am', '2025-12-08 02:03:25.838917')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:50625 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50626 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50626 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50675 - "POST /users/register HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:50705 - "POST /users/register HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 148, in register_user
+    db_user = create_user(user, db)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 131, in create_user
+    db.commit()
+    ~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('user123', 'unique@example.com', '$2b$12$vg1XBv.sVn0jdZAZtvThFut4fT28/cwveruR48995Qrc/mxzXU2tK', '2025-12-08 02:09:57.087025')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:50767 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50768 - "GET /static/register.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50768 - "POST /users/register HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 148, in register_user
+    db_user = create_user(user, db)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 131, in create_user
+    db.commit()
+    ~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('u_0cbf6e70', 'test+900f2fb1@example.com', '$2b$12$l9n2U/1hemZaL8Ko7IwSRuhPe5yOcPveann3RY.BQXSNrIjQyzVJK', '2025-12-08 02:14:44.136088')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:50769 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50770 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50770 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50770 - "POST /users/register HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/fastapi/routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/starlette/concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 148, in register_user
+    db_user = create_user(user, db)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/app/main.py", line 131, in create_user
+    db.commit()
+    ~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vatti/Downloads/Fastapi_calculator_User-Model-main/.venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('test+2f2e2144', 'test+2f2e2144@example.com', '$2b$12$K9zE5I.SaaLt4EBIkaon6er.NMxztO/33kmV1vfQCUy1up5mgNODK', '2025-12-08 02:14:45.047512')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:50773 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50774 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50774 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [20734]

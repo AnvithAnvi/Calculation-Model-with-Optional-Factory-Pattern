@@ -46,8 +46,7 @@ def test_register_login_positive_and_negative():
             page.fill('#email', email)
             page.fill('#username', username_generated)
             page.fill('#password', 'strong-password')
-            page.fill('#confirm', 'strong-password')
-            page.click('button[type=submit]')
+            page.click('#register')
             # wait for either success or error message
             page.wait_for_selector('.msg.success, .msg.error', timeout=7000)
             if page.query_selector('.msg.error'):
@@ -60,7 +59,7 @@ def test_register_login_positive_and_negative():
             page.goto("http://127.0.0.1:8000/static/login.html")
             page.fill('#username_or_email', email)
             page.fill('#password', 'strong-password')
-            page.click('button[type=submit]')
+            page.click('#login')
             # login UI shows a success message with class .msg.success
             page.wait_for_selector('.msg.success', timeout=5000)
             # ensure token stored in localStorage
@@ -87,7 +86,7 @@ def test_register_login_positive_and_negative():
             page.goto("http://127.0.0.1:8000/static/login.html")
             page.fill('#username_or_email', email)
             page.fill('#password', 'wrong-password')
-            page.click('button[type=submit]')
+            page.click('#login')
             # login error is shown as .msg.error
             page.wait_for_selector('.msg.error:has-text("Invalid credentials")', timeout=5000)
 

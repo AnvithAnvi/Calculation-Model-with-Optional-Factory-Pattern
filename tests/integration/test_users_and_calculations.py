@@ -1,11 +1,26 @@
+import pytest
 from fastapi.testclient import TestClient
 from app.main import app
+from app.database import get_db, Base, engine
 import uuid
 
-client = TestClient(app)
+
+@pytest.fixture(scope="function")
+def test_db():
+    """Create a fresh database for each test"""
+    Base.metadata.create_all(bind=engine)
+    db = next(get_db())
+    yield db
+    db.close()
+    Base.metadata.drop_all(bind=engine)
 
 
-def test_register_and_login_flow():
+@pytest.fixture
+def client(test_db):
+    return TestClient(app)
+
+
+def test_register_and_login_flow(client):
     suffix = uuid.uuid4().hex[:8]
     username = f"int_user_{suffix}"
     email = f"{username}@example.com"
@@ -29,7 +44,7 @@ def test_register_and_login_flow():
     assert t["user_id"] == data["id"]
 
 
-def test_calculation_bread():
+def test_calculation_bread(client):
     # create a fresh user and login to get token
     import uuid
     suffix = uuid.uuid4().hex[:8]
@@ -78,7 +93,7 @@ def test_calculation_bread():
     assert r5.json()["detail"] == "deleted"
 
 
-def test_modulus_and_exponent_operations():
+def test_modulus_and_exponent_operations(client):
     # create a fresh user and login to get token
     import uuid
     suffix = uuid.uuid4().hex[:8]
@@ -102,7 +117,32 @@ def test_modulus_and_exponent_operations():
     assert r_pow.json()["result"] == 32
 
 
-def test_invalid_division_returns_error():
+def test_stats_endpoint(client):
+    # create a fresh user and login to get token
+    import uuid
+    suffix = uuid.uuid4().hex[:8]
+    username = f"stat_user_{suffix}"
+    email = f"{username}@example.com"
+    reg = client.post("/users/register", json={"username": username, "email": email, "password": "strongpassword"})
+    assert reg.status_code == 201
+    r_login = client.post("/users/login", json={"username_or_email": username, "password": "strongpassword"})
+    assert r_login.status_code == 200
+    token = r_login.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # create multiple calculations
+    client.post("/calculations", json={"a": 5, "b": 2, "type": "add"}, headers=headers)
+    client.post("/calculations", json={"a": 8, "b": 3, "type": "modulus"}, headers=headers)
+    client.post("/calculations", json={"a": 2, "b": 4, "type": "multiply"}, headers=headers)
+
+    r = client.get("/calculations/stats", headers=headers)
+    assert r.status_code == 200
+    j = r.json()
+    assert j["total"] >= 3
+    assert "modulus" in j["counts"]
+
+
+def test_invalid_division_returns_error(client):
     # create a fresh user and login to get token
     import uuid
     suffix = uuid.uuid4().hex[:8]

@@ -17,6 +17,7 @@ from app.models import SessionToken
 from fastapi import Header
 from datetime import datetime, timedelta
 from app.calculation_factory import CalculationFactory
+from app.stats import compute_stats
 
 # Make sure tables are created/updated
 Base.metadata.create_all(bind=engine)
@@ -25,6 +26,14 @@ app = FastAPI(title="FastAPI Calculator with Factory Pattern")
 
 # Serve simple static front-end pages for registration/login used by E2E tests
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Disable caching for HTML assets under /static to avoid stale UI when iterating quickly
+@app.middleware("http")
+async def no_cache_static_html(request, call_next):
+    response = await call_next(request)
+    if request.url.path.startswith("/static/") and request.url.path.endswith(".html"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
 
 
 @app.get("/")
@@ -421,6 +430,13 @@ def list_calculations(db: Session = Depends(get_db), current_user: User = Depend
     """Browse calculations owned by the authenticated user."""
     rows = db.query(Calculation).filter(Calculation.user_id == current_user.id).order_by(Calculation.id.asc()).all()
     return rows
+
+
+@app.get("/calculations/stats")
+def calculations_stats(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """Return aggregated statistics for the authenticated user's calculations."""
+    stats = compute_stats(db, current_user.id, recent=5)
+    return stats
 
 
 @app.get("/calculations/{calculation_id}", response_model=CalculationRead)

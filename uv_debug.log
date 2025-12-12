@@ -1,0 +1,47 @@
+INFO:     Started server process [26658]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50987 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50988 - "GET /static/register.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50988 - "POST /users/register HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50988 - "GET /static/login.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50988 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50988 - "POST /users/register HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:50988 - "POST /users/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50991 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50992 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50992 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50992 - "POST /users/register HTTP/1.1" 201 Created
+2025-12-07 21:27:43,824 - app.logger_config - INFO - Adding 4.0 + 2.0
+INFO:     127.0.0.1:50992 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50992 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50992 - "GET /calculations/1 HTTP/1.1" 200 OK
+2025-12-07 21:27:43,835 - app.logger_config - INFO - Subtracting 10.0 - 5.0
+INFO:     127.0.0.1:50992 - "PUT /calculations/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50992 - "POST /calculations HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:50992 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50992 - "DELETE /calculations/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50997 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50998 - "GET /static/register.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50998 - "POST /users/register HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50998 - "GET /static/login.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50998 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50998 - "POST /users/register HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:50998 - "POST /users/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:51000 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "POST /users/register HTTP/1.1" 201 Created
+2025-12-07 21:27:49,556 - app.logger_config - INFO - Adding 4.0 + 2.0
+INFO:     127.0.0.1:51001 - "POST /calculations HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51001 - "GET /calculations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "GET /calculations/1 HTTP/1.1" 200 OK
+2025-12-07 21:27:49,566 - app.logger_config - INFO - Subtracting 10.0 - 5.0
+INFO:     127.0.0.1:51001 - "PUT /calculations/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "POST /calculations HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:51001 - "GET /calculations HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:51001 - "DELETE /calculations/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51004 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51005 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51005 - "GET /openapi.json HTTP/1.1" 200 OK

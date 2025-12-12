@@ -1,108 +1,519 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <title>Profile</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 720px; margin: 2rem auto; }
-    label { display:block; margin-top:1rem }
-    input { width: 100%; padding: .5rem }
-    button { margin-top: .8rem; padding: .6rem 1rem }
-    .msg { margin-top: .6rem }
-    .msg.success { color: green }
-    .msg.error { color: red }
-  </style>
-</head>
-<body>
-  <h1>Profile</h1>
-  <div>
-    <h2>Update Profile</h2>
-    <div>
-      <label>Username
-        <input id="username" />
-      </label>
-      <label>Email
-        <input id="email" />
-      </label>
-      <button id="saveProfile">Save</button>
-      <div class="msg success" style="display:none"></div>
-      <div class="msg error" style="display:none"></div>
-    </div>
-  </div>
+    <head>
+      <meta charset="utf-8">
+      <title>Profile</title>
+      <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <meta http-equiv="Expires" content="0" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="/static/css/common.css">
+      <style>
+        :root { --panel:#0b1321; --accent:#4f46e5; --text:#e5e7eb; --muted:#9ca3af; --border:#1f2937; }
+        *{box-sizing:border-box}
+        body{margin:0;font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;background:linear-gradient(145deg,#0b1020,#0a0d18 45%,#0c1124);color:var(--text);min-height:100vh;padding:24px}
+        :root[data-theme="light"] body{background:linear-gradient(145deg,#f9fafb,#e5e7eb 45%,#f3f4f6)}
+        a{color:var(--accent);text-decoration:none}
+        .shell{max-width:900px;margin:0 auto;display:grid;gap:16px}
+        header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+        header .brand{font-weight:700;font-size:18px;color:var(--text)}
+        header nav{display:flex;gap:12px;font-size:14px;align-items:center}
+        header nav button{border-radius:8px;padding:6px 10px}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .full-width{grid-column:1/-1}
+        .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 15px 50px rgba(0,0,0,0.35)}
+        .card h2{margin:0 0 8px;font-size:18px;color:var(--text)}
+        .subtext{color:var(--muted);font-size:13px;margin-bottom:12px}
+        label{display:block;color:var(--muted);font-size:13px;margin:8px 0 6px}
+        input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);color:var(--text)}
+        .row-flex{display:flex;gap:10px;margin-top:12px}
+        .cta-btn{background:var(--accent);color:#fff;border:none;box-shadow:0 10px 25px rgba(79,70,229,0.35);padding:10px 12px;border-radius:10px;cursor:pointer}
+        .cta-btn:hover{filter:brightness(1.05)}
+        .ghost-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 12px;border-radius:10px;cursor:pointer}
+        .error{color:#fca5a5;font-size:13px;margin-top:8px}
+        .success{color:#86efac;font-size:13px;margin-top:8px}
+        .user-info{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+        .avatar{width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff}
+        .user-details h3{margin:0 0 4px;font-size:20px;color:var(--text)}
+        .user-details .email{color:var(--muted);font-size:14px}
+        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+        .stat-card{background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+        .stat-value{font-size:24px;font-weight:700;color:var(--accent);margin-bottom:4px}
+        .stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+        .info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+        .info-row:last-child{border-bottom:none}
+        .info-label{color:var(--muted);font-size:13px}
+        .info-value{color:var(--text);font-size:13px;font-weight:500}
+        .danger-zone{border:1px solid #dc2626;background:rgba(220,38,38,0.05)}
+        .danger-zone h2{color:#dc2626}
+        .danger-btn{background:#dc2626;color:#fff;border:none}
+        .danger-btn:hover{background:#b91c1c}
+        .activity-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+        .activity-item:last-child{border-bottom:none}
+        .activity-icon{width:32px;height:32px;border-radius:50%;background:var(--input-bg);display:flex;align-items:center;justify-content:center;margin-right:12px}
+        .activity-content{flex:1}
+        .activity-title{color:var(--text);font-size:13px;font-weight:500}
+        .activity-time{color:var(--muted);font-size:12px}
+        .user-badge{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px}
+        .user-badge .avatar-small{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+        .user-badge .username{font-size:13px;color:var(--text)}
+        @media(max-width:900px){.grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr}}
+      </style>
+      <script src="/static/js/theme.js"></script>
+      <script src="/static/js/common.js" defer></script>
+      <script src="/static/js/profile.js" defer></script>
+    </head>
+    <body>
+      <!-- Sidebar -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-brand">Calculator</div>
+          <button class="sidebar-close" id="sidebarClose">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="/static/calculations.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            Calculator
+          </a>
+          <a href="/static/profile.html" id="sidebarProfile" class="active">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+          </a>
+          <a href="/static/register.html" id="sidebarRegister">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+            Register
+          </a>
+          <a href="/static/login.html" id="sidebarLogin">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+            Login
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <button id="sidebarLogout" class="cta-btn" type="button" style="width:100%;display:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+            Logout
+          </button>
+          <button id="clearLocalSidebar" class="ghost-btn" type="button" style="width:100%;display:none">Clear Token</button>
+        </div>
+      </div>
 
-  <div>
-    <h2>Change Password</h2>
-    <label>Current Password
-      <input id="current_password" type="password" />
-    </label>
-    <label>New Password
-      <input id="new_password" type="password" />
-    </label>
-    <button id="changePassword">Change Password</button>
-    <div class="msg success" style="display:none"></div>
-    <div class="msg error" style="display:none"></div>
-  </div>
+      <div class="shell">
+        <header>
+          <div style="display:flex;align-items:center;gap:12px">
+            <button class="hamburger" id="hamburger">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+            <div class="brand">Advanced Calculator</div>
+          </div>
+          <nav>
+            <button id="themeToggle" type="button" title="Toggle theme"></button>
+            <div id="userBadge" class="user-badge" style="display:none">
+              <div class="avatar-small" id="headerAvatar">U</div>
+              <span class="username" id="headerUsername">User</span>
+            </div>
+            <a href="/static/profile.html" id="navProfile" style="display:none">Profile</a>
+            <button id="navLogout" class="cta-btn" type="button" style="display:none">Logout</button>
+            <a href="/static/register.html" id="navRegister">Register</a>
+            <a href="/static/login.html" id="navLogin">Login</a>
+          </nav>
+        </header>
 
-  <div style="margin-top:1rem">
-    <button id="logout">Logout</button>
-  </div>
+        <!-- User Info Card -->
+        <div class="card full-width">
+          <div class="user-info">
+            <div class="avatar" id="userAvatar">U</div>
+            <div class="user-details">
+              <h3 id="displayUsername">Loading...</h3>
+              <div class="email" id="displayEmail">email@example.com</div>
+            </div>
+            <a href="/static/calculations.html" class="cta-btn" style="margin-left:auto">Go to Calculator</a>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="totalCalcs">0</div>
+              <div class="stat-label">Calculations</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="favoriteOp">—</div>
+              <div class="stat-label">Favorite Op</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="memberSince">—</div>
+              <div class="stat-label">Member Since</div>
+            </div>
+          </div>
 
-<script>
-const token = localStorage.getItem('access_token')
-if (!token) {
-  window.location.href = '/static/login.html'
-}
+          <div class="subtext" style="margin:12px 0 8px;font-weight:600;color:var(--text)">Account Information</div>
+          <div class="info-row">
+            <span class="info-label">User ID</span>
+            <span class="info-value" id="userId">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Username</span>
+            <span class="info-value" id="infoUsername">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email</span>
+            <span class="info-value" id="infoEmail">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Account Status</span>
+            <span class="info-value" style="color:var(--success)">Active</span>
+          </div>
+        </div>
 
-function showMsg(el, text, ok=true){
-  el.style.display='block'; el.textContent=text; el.className='msg ' + (ok? 'success':'error')
-  setTimeout(()=>{ el.style.display='none' }, 4000)
-}
+        <div class="grid">
+          <div class="card">
+            <h2>Update Profile</h2>
+            <div class="subtext">Change your username or email.</div>
+            <label for="email">Email</label>
+            <input id="email" autocomplete="email" />
+            <label for="username">Username</label>
+            <input id="username" autocomplete="username" />
+            <div class="row-flex">
+              <button id="save" class="cta-btn" type="button">Save</button>
+            </div>
+            <div class="msg profile subtext" style="margin-top:8px"></div>
+          </div>
 
-async function loadProfile(){
-  const r = await fetch('/users/me', { headers: { 'Authorization': 'Bearer ' + token } })
-  if (r.status === 200){
-    const j = await r.json()
-    document.getElementById('username').value = j.username || ''
-    document.getElementById('email').value = j.email || ''
-  } else {
-    window.location.href='/static/login.html'
-  }
-}
+          <div class="card">
+            <h2>Change Password</h2>
+            <div class="subtext">Update your password securely.</div>
+            <label for="current_password">Current Password</label>
+            <div class="password-toggle-wrapper">
+              <input id="current_password" type="password" autocomplete="current-password" />
+              <button class="password-toggle" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <label for="new_password">New Password</label>
+            <div class="password-toggle-wrapper">
+              <input id="new_password" type="password" autocomplete="new-password" />
+              <button class="password-toggle" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="row-flex">
+              <button id="changePassword" class="cta-btn" type="button">Change Password</button>
+            </div>
+            <div class="msg password subtext" style="margin-top:8px"></div>
+          </div>
+        </div>
 
-document.getElementById('saveProfile').addEventListener('click', async ()=>{
-  const username = document.getElementById('username').value
-  const email = document.getElementById('email').value
-  const r = await fetch('/users/me', { method: 'PUT', headers: { 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify({ username, email }) })
-  const successEl = document.querySelectorAll('.msg.success')[0]
-  const errorEl = document.querySelectorAll('.msg.error')[0]
-  if (r.status === 200){
-    const j = await r.json(); showMsg(successEl, 'Profile updated', true)
-  } else {
-    const txt = await r.text(); showMsg(errorEl, txt || 'Error', false)
-  }
-})
+        <!-- Recent Activity -->
+        <div class="card full-width">
+          <h2>Recent Activity</h2>
+          <div class="subtext">Your recent account activity and calculations.</div>
+          <div id="activityList">
+            <div class="activity-item">
+              <div style="display:flex;align-items:center">
+                <div class="activity-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-title">Logged in</div>
+                  <div class="activity-time">Just now</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-document.getElementById('changePassword').addEventListener('click', async ()=>{
-  const current = document.getElementById('current_password').value
-  const nw = document.getElementById('new_password').value
-  const r = await fetch('/users/me/password', { method: 'POST', headers: { 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify({ current_password: current, new_password: nw }) })
-  const successEl = document.querySelectorAll('.msg.success')[1]
-  const errorEl = document.querySelectorAll('.msg.error')[1]
-  if (r.status === 200){
-    showMsg(successEl, 'Password changed', true)
-    // clear stored token, require re-login
-    localStorage.removeItem('access_token')
-    setTimeout(()=>{ window.location.href='/static/login.html' }, 1000)
-  } else {
-    const txt = await r.text(); showMsg(errorEl, txt || 'Error', false)
-  }
-})
+        <!-- Preferences -->
+        <div class="card full-width">
+          <h2>Preferences</h2>
+          <div class="subtext">Customize your experience.</div>
+          <div class="info-row">
+            <div>
+              <div class="info-label">Theme</div>
+              <div class="subtext" style="margin:4px 0 0">Choose your preferred color scheme</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="ghost-btn" id="setDarkTheme" type="button">Dark</button>
+              <button class="ghost-btn" id="setLightTheme" type="button">Light</button>
+            </div>
+          </div>
+        </div>
 
-document.getElementById('logout').addEventListener('click', ()=>{
-  localStorage.removeItem('access_token'); window.location.href = '/'
-})
+        <!-- Danger Zone -->
+        <div class="card full-width danger-zone">
+          <h2>Danger Zone</h2>
+          <div class="subtext">Irreversible actions. Proceed with caution.</div>
+          <div class="info-row">
+            <div>
+              <div class="info-label" style="color:#dc2626">Delete All Calculations</div>
+              <div class="subtext" style="margin:4px 0 0">Permanently remove all your calculation history</div>
+            </div>
+            <button class="danger-btn" id="deleteAllCalcs" type="button">Delete All</button>
+          </div>
+          <div class="info-row">
+            <div>
+              <div class="info-label" style="color:#dc2626">Delete Account</div>
+              <div class="subtext" style="margin:4px 0 0">Permanently delete your account and all data</div>
+            </div>
+            <button class="danger-btn" id="deleteAccount" type="button">Delete Account</button>
+          </div>
+        </div>
+      </div>
 
-loadProfile()
-</script>
-</body>
-</html>
+      <script>
+        // Check login status and update UI
+        async function checkLoginStatus() {
+          const token = localStorage.getItem('access_token');
+          const isLoggedIn = !!token;
+
+          // Header navigation
+          document.getElementById('navRegister').style.display = isLoggedIn ? 'none' : 'inline';
+          document.getElementById('navLogin').style.display = isLoggedIn ? 'none' : 'inline';
+          document.getElementById('navProfile').style.display = isLoggedIn ? 'inline' : 'none';
+          document.getElementById('navLogout').style.display = isLoggedIn ? 'inline' : 'none';
+          document.getElementById('userBadge').style.display = isLoggedIn ? 'flex' : 'none';
+
+          // Sidebar navigation
+          document.getElementById('sidebarRegister').style.display = isLoggedIn ? 'none' : 'flex';
+          document.getElementById('sidebarLogin').style.display = isLoggedIn ? 'none' : 'flex';
+          document.getElementById('sidebarProfile').style.display = isLoggedIn ? 'flex' : 'none';
+          document.getElementById('sidebarLogout').style.display = isLoggedIn ? 'block' : 'none';
+          document.getElementById('clearLocalSidebar').style.display = isLoggedIn ? 'block' : 'none';
+
+          if (isLoggedIn) {
+            try {
+              const response = await fetch('/users/me', {
+                headers: { 'Authorization': 'Bearer ' + token }
+              });
+              if (response.ok) {
+                const user = await response.json();
+                document.getElementById('headerUsername').textContent = user.username;
+                document.getElementById('headerAvatar').textContent = user.username.charAt(0).toUpperCase();
+              }
+            } catch (err) {}
+          }
+        }
+
+        function handleLogout() {
+          localStorage.removeItem('access_token');
+          alert('Logged out successfully');
+          window.location.href = '/static/login.html';
+        }
+
+        document.getElementById('navLogout')?.addEventListener('click', handleLogout);
+        document.getElementById('sidebarLogout')?.addEventListener('click', handleLogout);
+
+        document.getElementById('clearLocalSidebar')?.addEventListener('click', () => {
+          localStorage.removeItem('access_token');
+          alert('Token cleared');
+          window.location.href = '/static/login.html';
+        });
+
+        window.addEventListener('load', checkLoginStatus);
+
+        // Load user profile data
+        async function loadUserProfile() {
+          const token = localStorage.getItem('access_token');
+          if (!token) {
+            window.location.href = '/static/login.html';
+            return;
+          }
+
+          try {
+            const response = await fetch('/users/me', {
+              headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (response.ok) {
+              const user = await response.json();
+              
+              // Update display elements
+              document.getElementById('displayUsername').textContent = user.username;
+              document.getElementById('displayEmail').textContent = user.email;
+              document.getElementById('infoUsername').textContent = user.username;
+              document.getElementById('infoEmail').textContent = user.email;
+              document.getElementById('userId').textContent = '#' + user.id;
+              
+              // Set avatar initial
+              const avatar = document.getElementById('userAvatar');
+              avatar.textContent = user.username.charAt(0).toUpperCase();
+              
+              // Load calculations for stats
+              loadCalculationStats(token);
+            } else if (response.status === 401) {
+              localStorage.removeItem('access_token');
+              window.location.href = '/static/login.html';
+            }
+          } catch (err) {
+            console.error('Failed to load profile:', err);
+          }
+        }
+
+        async function loadCalculationStats(token) {
+          try {
+            const response = await fetch('/calculations', {
+              headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (response.ok) {
+              const calculations = await response.json();
+              
+              // Total calculations
+              document.getElementById('totalCalcs').textContent = calculations.length;
+              
+              // Find favorite operation
+              if (calculations.length > 0) {
+                const opCounts = {};
+                calculations.forEach(calc => {
+                  opCounts[calc.type] = (opCounts[calc.type] || 0) + 1;
+                });
+                
+                const favorite = Object.entries(opCounts).sort((a, b) => b[1] - a[1])[0];
+                document.getElementById('favoriteOp').textContent = favorite ? favorite[0] : '—';
+                
+                // Member since (using first calculation as proxy)
+                const oldest = calculations.sort((a, b) => a.id - b.id)[0];
+                if (oldest.timestamp) {
+                  const date = new Date(oldest.timestamp);
+                  document.getElementById('memberSince').textContent = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                }
+
+                // Update activity list with recent calculations
+                const activityList = document.getElementById('activityList');
+                const recent = calculations.slice(-3).reverse();
+                
+                activityList.innerHTML = recent.map(calc => `
+                  <div class="activity-item">
+                    <div style="display:flex;align-items:center">
+                      <div class="activity-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                      </div>
+                      <div class="activity-content">
+                        <div class="activity-title">Calculated: ${calc.a} ${calc.type} ${calc.b} = ${calc.result}</div>
+                        <div class="activity-time">${calc.timestamp ? new Date(calc.timestamp).toLocaleString() : 'Recently'}</div>
+                      </div>
+                    </div>
+                  </div>
+                `).join('');
+              }
+            }
+          } catch (err) {
+            console.error('Failed to load stats:', err);
+          }
+        }
+
+        // Theme preferences
+        document.getElementById('setDarkTheme')?.addEventListener('click', () => {
+          window.setTheme('dark');
+          alert('Dark theme applied');
+        });
+
+        document.getElementById('setLightTheme')?.addEventListener('click', () => {
+          window.setTheme('light');
+          alert('Light theme applied');
+        });
+
+        // Delete all calculations
+        document.getElementById('deleteAllCalcs')?.addEventListener('click', async () => {
+          if (!confirm('Are you sure you want to delete ALL your calculations? This cannot be undone!')) {
+            return;
+          }
+
+          const token = localStorage.getItem('access_token');
+          if (!token) return;
+
+          try {
+            const response = await fetch('/calculations', {
+              headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (response.ok) {
+              const calculations = await response.json();
+              
+              let deleted = 0;
+              for (const calc of calculations) {
+                const delResponse = await fetch(`/calculations/${calc.id}`, {
+                  method: 'DELETE',
+                  headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (delResponse.ok) deleted++;
+              }
+
+              alert(`Deleted ${deleted} calculations`);
+              loadCalculationStats(token);
+            }
+          } catch (err) {
+            alert('Failed to delete calculations: ' + err.message);
+          }
+        });
+
+        // Delete account
+        document.getElementById('deleteAccount')?.addEventListener('click', async () => {
+          const confirmation = prompt('Type "DELETE" to confirm account deletion:');
+          if (confirmation !== 'DELETE') {
+            alert('Account deletion cancelled');
+            return;
+          }
+
+          const token = localStorage.getItem('access_token');
+          if (!token) return;
+
+          try {
+            const response = await fetch('/users/me', {
+              method: 'DELETE',
+              headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (response.ok) {
+              localStorage.removeItem('access_token');
+              alert('Account deleted successfully');
+              window.location.href = '/static/register.html';
+            } else {
+              alert('Failed to delete account');
+            }
+          } catch (err) {
+            alert('Error: ' + err.message);
+          }
+        });
+
+        // Load profile on page load
+        window.addEventListener('load', loadUserProfile);
+
+        // Sidebar toggle
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const hamburger = document.getElementById('hamburger');
+        const sidebarClose = document.getElementById('sidebarClose');
+        
+        hamburger?.addEventListener('click', () => {
+          sidebar.classList.add('open');
+          overlay.classList.add('active');
+        });
+        
+        sidebarClose?.addEventListener('click', () => {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+        });
+        
+        overlay?.addEventListener('click', () => {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+        });
+        
+        // Clear token buttons
+        document.getElementById('clearLocal')?.addEventListener('click', () => {
+          localStorage.removeItem('access_token');
+          alert('Token cleared');
+        });
+        
+        document.getElementById('clearLocalSidebar')?.addEventListener('click', () => {
+          localStorage.removeItem('access_token');
+          alert('Token cleared');
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+        });
+      </script>
+
+  
+    </body>
+    </html>

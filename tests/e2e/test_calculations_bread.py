@@ -84,6 +84,12 @@ def test_calculations_bread_positive_and_negative():
             assert create_pow['status'] == 201
             assert create_pow['body']['result'] == 32
 
+            # fetch stats and verify counts include operations we created
+            stats = page.evaluate("async () => { const r = await fetch('http://127.0.0.1:8000/calculations/stats', {headers:{'Authorization': 'Bearer '+localStorage.getItem('access_token')}}); return {status: r.status, body: await r.json()}; }")
+            assert stats['status'] == 200
+            assert stats['body']['total'] >= 3
+            assert stats['body']['counts'].get('exponent', 0) >= 1
+
             # Browse list
             listing = page.evaluate("async () => { const r = await fetch('http://127.0.0.1:8000/calculations', {headers:{'Authorization': 'Bearer '+localStorage.getItem('access_token')}}); return {status: r.status, body: await r.json()}; }")
             assert listing['status'] == 200

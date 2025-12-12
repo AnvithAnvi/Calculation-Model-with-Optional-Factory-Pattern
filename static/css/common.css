@@ -1,0 +1,288 @@
+/* Theme Variables */
+:root[data-theme="dark"] {
+  --bg: #0d1117;
+  --panel: #0b1321;
+  --accent: #4f46e5;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #1f2937;
+  --input-bg: #0f172a;
+  --hover-bg: #1f2937;
+  --success: #22c55e;
+  --error: #ef4444;
+  --warning: #f59e0b;
+}
+
+:root[data-theme="light"] {
+  --bg: #f9fafb;
+  --panel: #ffffff;
+  --accent: #4f46e5;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --input-bg: #f3f4f6;
+  --hover-bg: #f3f4f6;
+  --success: #059669;
+  --error: #dc2626;
+  --warning: #d97706;
+}
+
+/* Animated Transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+button, .key, .pill, input, .card, header, .ghost-btn, .cta-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 260px;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-brand {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.sidebar-close {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-close:hover {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-nav a, .sidebar-nav button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidebar-nav a:hover, .sidebar-nav button:hover {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+
+.sidebar-nav a.active {
+  background: var(--accent);
+  color: white;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.hamburger {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.hamburger:hover {
+  background: var(--hover-bg);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+  
+  header nav {
+    display: none !important;
+  }
+}
+
+/* Password Toggle Styles */
+.password-toggle-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: var(--text);
+  background: var(--hover-bg);
+}
+
+.password-toggle-wrapper input {
+  padding-right: 45px;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 8px;
+}
+
+.strength-bar-container {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0;
+  transition: width 0.3s ease, background 0.3s ease;
+  border-radius: 2px;
+}
+
+.strength-text {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Theme Toggle Button */
+#themeToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+#themeToggle:hover {
+  background: var(--hover-bg);
+}
+
+#themeToggle svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+/* Enhanced animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.card {
+  animation: fadeIn 0.4s ease;
+}
+
+.sidebar-nav a, .sidebar-nav button {
+  animation: slideIn 0.3s ease;
+  animation-fill-mode: both;
+}
+
+.sidebar-nav a:nth-child(1) { animation-delay: 0.05s; }
+.sidebar-nav a:nth-child(2) { animation-delay: 0.1s; }
+.sidebar-nav a:nth-child(3) { animation-delay: 0.15s; }
+.sidebar-nav a:nth-child(4) { animation-delay: 0.2s; }
+.sidebar-nav a:nth-child(5) { animation-delay: 0.25s; }
+
+/* Smooth hover effects */
+button:active, .key:active {
+  transform: scale(0.98);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}

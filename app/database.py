@@ -54,3 +54,17 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+# Ensure models are imported and tables are created when the module is imported.
+# This helps tests and simple script runs where tables need to exist without
+# requiring an external migration step. We import inside a try/except to avoid
+# hard failures in environments where imports may have side-effects.
+try:
+    # Import models so they register on Base.metadata
+    import app.models  # noqa: F401
+    Base.metadata.create_all(bind=engine)
+except Exception:
+    # If anything goes wrong (circular import during early init, or DB not
+    # available), we silently ignore here — higher-level code can handle it.
+    pass

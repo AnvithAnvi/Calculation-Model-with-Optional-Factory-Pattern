@@ -1,93 +1,199 @@
 <!doctype html>
-<!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Login — Calculator</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <title>Login</title>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/common.css">
   <style>
-    :root{--bg:#f7f7f8;--card:#fff;--accent:#2563eb;--muted:#666}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:#111}
-    .center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .card{width:100%;max-width:420px;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
-    h1{margin:0 0 8px;font-size:20px}
-    p.lead{margin:0 0 16px;color:var(--muted)}
-    label{display:block;margin-top:12px;font-size:14px}
-    input{width:100%;padding:10px;border:1px solid #e6e9ee;border-radius:8px;margin-top:6px}
-    button{background:var(--accent);color:white;border:none;padding:10px 12px;border-radius:8px;cursor:pointer}
-    .muted{color:var(--muted);font-size:13px}
-    .msg{margin-top:12px;padding:10px;border-radius:8px}
-    .msg.success{background:#ecfdf5;color:#065f46}
-    .msg.error{background:#fff1f2;color:#9f1239}
-    .tokenBox{display:flex;gap:8px;align-items:center;margin-top:12px}
-    .tokenMask{flex:1;padding:8px;border:1px dashed #e6e9ee;border-radius:8px;background:#fbfcfe;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-    a.inline{color:var(--accent);text-decoration:none}
+    :root { --panel:#0b1321; --accent:#4f46e5; --text:#e5e7eb; --muted:#9ca3af; --border:#1f2937; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;background:linear-gradient(145deg,#0b1020,#0a0d18 45%,#0c1124);color:var(--text);min-height:100vh;padding:24px}
+    :root[data-theme="light"] body{background:linear-gradient(145deg,#f9fafb,#e5e7eb 45%,#f3f4f6)}
+    a{color:var(--accent);text-decoration:none}
+    .shell{max-width:720px;margin:0 auto;display:grid;gap:16px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+    header .brand{font-weight:700;font-size:18px;color:var(--text)}
+    header nav{display:flex;gap:12px;font-size:14px;align-items:center}
+    header nav button{border-radius:8px;padding:6px 10px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 15px 50px rgba(0,0,0,0.35)}
+    .card h2{margin:0 0 8px;font-size:18px;color:var(--text)}
+    .subtext{color:var(--muted);font-size:13px;margin-bottom:12px}
+    label{display:block;color:var(--muted);font-size:13px;margin:8px 0 6px}
+    input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);color:var(--text)}
+    .row-flex{display:flex;gap:10px;margin-top:12px}
+    .cta-btn{background:var(--accent);color:#fff;border:none;box-shadow:0 10px 25px rgba(79,70,229,0.35);padding:10px 12px;border-radius:10px;cursor:pointer}
+    .cta-btn:hover{filter:brightness(1.05)}
+    .ghost-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 12px;border-radius:10px;cursor:pointer}
+    .error{color:#fca5a5;font-size:13px;margin-top:8px}
+    .success{color:#86efac;font-size:13px;margin-top:8px}
+    .user-badge{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px}
+    .user-badge .avatar-small{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+    .user-badge .username{font-size:13px;color:var(--text)}
   </style>
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/common.js" defer></script>
+  <script src="/static/js/login.js" defer></script>
 </head>
 <body>
-  <div class="center">
-    <div class="card">
-      <h1>Sign in</h1>
-      <p class="lead">Use your username or email to get a token for the demo.</p>
+  <!-- Sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">Calculator</div>
+      <button class="sidebar-close" id="sidebarClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/static/calculations.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Calculator
+      </a>
+      <a href="/static/profile.html" id="sidebarProfile">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </a>
+      <a href="/static/register.html" id="sidebarRegister">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+        Register
+      </a>
+      <a href="/static/login.html" id="sidebarLogin" class="active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+        Login
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button id="sidebarLogout" class="cta-btn" type="button" style="width:100%;display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Logout
+      </button>
+      <button id="clearLocalSidebar" class="ghost-btn" type="button" style="width:100%;display:none">Clear Token</button>
+    </div>
+  </div>
 
-      <form id="loginForm">
-        <label>Username or Email
-          <input id="username_or_email" name="username_or_email" required placeholder="username or email" />
-        </label>
-
-        <label>Password
-          <input id="password" name="password" type="password" required placeholder="password" />
-        </label>
-
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <button id="submitBtn" type="submit">Login</button>
-          <a class="inline" href="/static/register.html" style="align-self:center">Create account</a>
-        </div>
-      </form>
-
-      <div id="messages"></div>
-
-      <div class="tokenBox" id="tokenBox" style="display:none">
-        <div class="tokenMask" id="tokenMask">(token)</div>
-        <button id="copyTokenBtn" type="button">Copy</button>
+  <div class="shell">
+    <header>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="hamburger" id="hamburger">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+        <div class="brand">Advanced Calculator</div>
       </div>
+      <nav>
+        <button id="themeToggle" type="button" title="Toggle theme"></button>
+        <div id="userBadge" class="user-badge" style="display:none">
+          <div class="avatar-small" id="headerAvatar">U</div>
+          <span class="username" id="headerUsername">User</span>
+        </div>
+        <a href="/static/profile.html" id="navProfile" style="display:none">Profile</a>
+        <button id="navLogout" class="cta-btn" type="button" style="display:none">Logout</button>
+        <a href="/static/register.html" id="navRegister">Register</a>
+        <a href="/static/login.html" id="navLogin">Login</a>
+      </nav>
+    </header>
+
+    <div class="card">
+      <h2>Login</h2>
+      <div class="subtext">Sign in to save and view calculations.</div>
+      <label for="username_or_email">Username or Email</label>
+      <input id="username_or_email" autocomplete="username" />
+      <label for="password">Password</label>
+      <div class="password-toggle-wrapper">
+        <input id="password" type="password" autocomplete="current-password" />
+        <button class="password-toggle" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="row-flex">
+        <button id="login" class="cta-btn" type="button">Login</button>
+        <a class="ghost-btn" href="/static/register.html">Create account</a>
+      </div>
+      <div id="msg" class="subtext" style="margin-top:8px"></div>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById('loginForm');
-    const messages = document.getElementById('messages');
-    const tokenBox = document.getElementById('tokenBox');
-    const tokenMask = document.getElementById('tokenMask');
-    const copyTokenBtn = document.getElementById('copyTokenBtn');
+    // Check login status and update UI
+    async function checkLoginStatus() {
+      const token = localStorage.getItem('access_token');
+      const isLoggedIn = !!token;
 
-    function showMessage(type, text){
-      messages.innerHTML = '';
-      const d = document.createElement('div'); d.className = 'msg ' + (type==='ok' ? 'success' : 'error');
-      d.textContent = text; messages.appendChild(d);
-      // keep legacy selectors for e2e expectations
-      if (type==='ok') d.classList.add('msg','success'); else d.classList.add('msg','error');
+      // Header navigation
+      document.getElementById('navRegister').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('navLogin').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('navProfile').style.display = isLoggedIn ? 'inline' : 'none';
+      document.getElementById('navLogout').style.display = isLoggedIn ? 'inline' : 'none';
+      document.getElementById('userBadge').style.display = isLoggedIn ? 'flex' : 'none';
+
+      // Sidebar navigation
+      document.getElementById('sidebarRegister').style.display = isLoggedIn ? 'none' : 'flex';
+      document.getElementById('sidebarLogin').style.display = isLoggedIn ? 'none' : 'flex';
+      document.getElementById('sidebarProfile').style.display = isLoggedIn ? 'flex' : 'none';
+      document.getElementById('sidebarLogout').style.display = isLoggedIn ? 'block' : 'none';
+      document.getElementById('clearLocalSidebar').style.display = isLoggedIn ? 'block' : 'none';
+
+      if (isLoggedIn) {
+        try {
+          const response = await fetch('/users/me', {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if (response.ok) {
+            const user = await response.json();
+            document.getElementById('headerUsername').textContent = user.username;
+            document.getElementById('headerAvatar').textContent = user.username.charAt(0).toUpperCase();
+          }
+        } catch (err) {}
+      }
     }
 
-    copyTokenBtn.addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(localStorage.getItem('access_token')||''); alert('Token copied'); }catch(e){ alert('Copy failed'); }
+    function handleLogout() {
+      localStorage.removeItem('access_token');
+      alert('Logged out successfully');
+      checkLoginStatus();
+    }
+
+    document.getElementById('navLogout')?.addEventListener('click', handleLogout);
+    document.getElementById('sidebarLogout')?.addEventListener('click', () => {
+      handleLogout();
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
     });
 
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault(); messages.innerHTML=''; tokenBox.style.display='none';
-      const username_or_email = document.getElementById('username_or_email').value.trim();
-      const password = document.getElementById('password').value;
-      try{
-        const r = await fetch('/users/login',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username_or_email, password}) });
-        const txt = await r.text();
-        if (!r.ok){ showMessage('err', txt || ('Error '+r.status)); return; }
-        try{ const j = JSON.parse(txt); if (j.access_token){ localStorage.setItem('access_token', j.access_token); tokenMask.textContent = j.access_token; tokenBox.style.display='flex'; } }catch(_){ }
-        showMessage('ok','Logged in');
-      }catch(err){ showMessage('err','Network error'); }
+    document.getElementById('clearLocalSidebar')?.addEventListener('click', () => {
+      localStorage.removeItem('access_token');
+      alert('Token cleared');
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      checkLoginStatus();
+    });
+
+    window.addEventListener('load', checkLoginStatus);
+
+    // Sidebar toggle
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const hamburger = document.getElementById('hamburger');
+    const sidebarClose = document.getElementById('sidebarClose');
+    
+    hamburger?.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+    });
+    
+    sidebarClose?.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+    
+    overlay?.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
     });
   </script>
-</body>
-</html>
-  </script>
+
 </body>
 </html>

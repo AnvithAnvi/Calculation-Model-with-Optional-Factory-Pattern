@@ -2,53 +2,192 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Calculations - BREAD</title>
+  <title>Advanced Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/common.css">
   <style>
-    body{font-family:system-ui,Segoe UI,Arial;margin:20px}
-    .card{max-width:760px;margin:0 auto;padding:20px;border:1px solid #eee;border-radius:8px}
-    label{display:block;margin-top:8px}
-    input,select,button{padding:8px;margin-top:6px;width:100%;box-sizing:border-box}
-    .row{display:flex;gap:8px}
-    .row > *{flex:1}
-    .list{margin-top:16px}
-    .calc{border-bottom:1px solid #f0f0f0;padding:8px 0}
-    .muted{color:#666;font-size:0.9em}
-    .error{color:#b00020}
-    .success{color:#006400}
+    :root { --bg:#0d1117; --panel:#0b1321; --accent:#4f46e5; --text:#e5e7eb; --muted:#9ca3af; --border:#1f2937; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;background:linear-gradient(145deg,#0b1020,#0a0d18 45%,#0c1124);color:var(--text);min-height:100vh;padding:24px}
+    :root[data-theme="light"] body{background:linear-gradient(145deg,#f9fafb,#e5e7eb 45%,#f3f4f6)}
+    a{color:var(--accent);text-decoration:none}
+    .shell{max-width:1100px;margin:0 auto;display:grid;gap:16px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+    header .brand{font-weight:700;font-size:18px;color:var(--text)}
+    header nav{display:flex;gap:12px;font-size:14px;align-items:center}
+    header nav button{border-radius:8px;padding:6px 10px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 15px 50px rgba(0,0,0,0.35)}
+    .card h2{margin:0 0 8px;font-size:18px;color:var(--text)}
+    .subtext{color:var(--muted);font-size:13px;margin-bottom:12px}
+    .display{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;min-height:68px;display:flex;flex-direction:column;gap:4px;font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace}
+    .display .line{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+    .display .value{color:var(--text);font-size:22px;font-weight:600;letter-spacing:0.5px;overflow:hidden;text-overflow:ellipsis}
+    .controls{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+    .pill{padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);cursor:pointer;font-size:13px}
+    .pill.active{border-color:var(--accent);box-shadow:0 0 0 1px rgba(79,70,229,0.6);}
+    .keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .key{padding:14px 0;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:16px;font-weight:600;cursor:pointer;transition:all .12s ease;box-shadow:0 6px 16px rgba(0,0,0,0.35)}
+    .key:hover{background:var(--hover-bg)}
+    .key.op{background:var(--panel);border-color:var(--border)}
+    .key.op:hover{background:var(--hover-bg)}
+    .key.cta{background:var(--accent);color:#fff;border:none;box-shadow:0 10px 25px rgba(79,70,229,0.35)}
+    .key.cta:hover{filter:brightness(1.05)}
+    .key.wide{grid-column:span 2}
+    .cta-btn{background:var(--accent);color:#fff;border:none;box-shadow:0 10px 25px rgba(79,70,229,0.35)}
+    .cta-btn:hover{filter:brightness(1.05)}
+    .ghost-btn{background:transparent;border-color:var(--border);color:var(--muted)}
+    .row-flex{display:flex;gap:10px;margin-top:12px}
+    .row-flex button{flex:1}
+    button{cursor:pointer;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);padding:10px 12px;font-weight:600;transition:all .12s ease}
+    button:hover{background:var(--hover-bg)}
+    .ghost{background:transparent;border-color:var(--border);color:var(--muted)}
+    .list{margin-top:10px;max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;padding:10px;background:var(--input-bg)}
+    .calc{border-bottom:1px solid var(--border);padding:8px 0}
+    .muted{color:var(--muted);font-size:13px}
+    .error{color:#fca5a5;font-size:13px}
+    .success{color:#86efac;font-size:13px}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:9999}
+    .modal.active{display:flex}
+    .modal-content{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:modalSlide 0.3s ease;position:relative;z-index:10000}
+    .modal-content h3{margin:0 0 12px;color:var(--text);font-size:20px}
+    .modal-content p{color:var(--muted);font-size:14px;margin:0 0 20px}
+    .modal-buttons{display:flex;gap:10px}
+    .modal-buttons button{flex:1}
+    @keyframes modalSlide{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    .user-badge{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px}
+    .user-badge .avatar-small{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+    .user-badge .username{font-size:13px;color:var(--text)}
+    @media(max-width:900px){.shell{padding-bottom:20px}}
   </style>
+  <script src="/static/js/theme.js"></script>
 </head>
 <body>
-  <div class="card">
-    <h2>Calculations (BROWSE / ADD / EDIT / DELETE)</h2>
+  <!-- Sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">Calculator</div>
+      <button class="sidebar-close" id="sidebarClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/static/calculations.html" class="active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Calculator
+      </a>
+      <a href="/static/profile.html" id="sidebarProfile">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </a>
+      <a href="/static/register.html" id="sidebarRegister">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+        Register
+      </a>
+      <a href="/static/login.html" id="sidebarLogin">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+        Login
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button id="sidebarLogout" class="cta-btn" type="button" style="width:100%;display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Logout
+      </button>
+      <button id="clearLocalSidebar" class="ghost" type="button" style="width:100%;display:none">Clear Token</button>
+    </div>
+  </div>
 
-    <div>
-      <label>Access Token</label>
-      <div style="display:flex;gap:8px;align-items:center">
-        <div id="tokenDisplay" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:#fafafa">(no token)</div>
-        <button id="showHide" type="button">Show</button>
-        <button id="copyToken" type="button">Copy</button>
-        <button id="editToken" type="button">Edit</button>
+  <div class="shell">
+    <header>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="hamburger" id="hamburger">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+        <div class="brand">Advanced Calculator</div>
       </div>
-      <div style="display:flex;gap:8px;margin-top:6px">
-        <button id="loadToken" type="button">Load token</button>
-        <a href="/static/register.html">Register</a>
-        <a href="/static/login.html">Login</a>
+      <nav>
+        <button id="themeToggle" type="button" title="Toggle theme"></button>
+        <div id="userBadge" class="user-badge" style="display:none">
+          <div class="avatar-small" id="headerAvatar">U</div>
+          <span class="username" id="headerUsername">User</span>
+        </div>
+        <a href="/static/profile.html" id="navProfile" style="display:none">Profile</a>
+        <button id="navLogout" class="cta-btn" type="button" style="display:none">Logout</button>
+        <a href="/static/register.html" id="navRegister">Register</a>
+        <a href="/static/login.html" id="navLogin">Login</a>
+      </nav>
+    </header>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+      <div class="modal-content">
+        <h3>Login Required</h3>
+        <p>Please login to save your calculations and view your history.</p>
+        <div class="modal-buttons">
+          <button class="ghost-btn" id="modalCancel">Continue as Guest</button>
+          <button class="cta-btn" id="modalLogin">Login</button>
+        </div>
       </div>
-      <div class="muted" style="margin-top:6px">Tip: tokens in this demo are stored in <code>localStorage.access_token</code>. Use Load/Edit to manage it.</div>
-      <div id="tokenStatus" class="muted" style="margin-top:6px"></div>
-      <!-- hidden input kept for backward compatibility with existing scripts -->
-      <input id="token" type="hidden" />
     </div>
 
-    <hr />
-    <h3>Create Calculation</h3>
-    <div>
-      <label>a (number)</label>
-      <input id="a" type="number" step="any" />
-      <label>b (number)</label>
-      <input id="b" type="number" step="any" />
-      <label>Operation</label>
-      <select id="type">
+    <div class="card">
+      <h2>Keypad</h2>
+      <div class="subtext">Enter numbers, choose an operation, then Compute & Save.</div>
+
+      <div class="display">
+        <div class="line"><span>Operand A</span><span id="opA-label">active</span></div>
+        <div class="value" id="opA-val">0</div>
+        <div class="line"><span>Operand B</span><span id="opB-label">idle</span></div>
+        <div class="value" id="opB-val">0</div>
+        <div class="line"><span>Operation</span><span id="opType">add</span></div>
+      </div>
+
+      <div class="controls">
+        <button class="pill active" id="targetA" type="button">Edit A</button>
+        <button class="pill" id="targetB" type="button">Edit B</button>
+        <span class="muted">Tokens stored in background</span>
+      </div>
+
+      <div class="keypad" style="margin-bottom:12px">
+        <button class="key" type="button">7</button>
+        <button class="key" type="button">8</button>
+        <button class="key" type="button">9</button>
+        <button class="key op" type="button" data-op="back">⌫</button>
+        <button class="key" type="button">4</button>
+        <button class="key" type="button">5</button>
+        <button class="key" type="button">6</button>
+        <button class="key op" type="button" data-op="clear">AC</button>
+        <button class="key" type="button">1</button>
+        <button class="key" type="button">2</button>
+        <button class="key" type="button">3</button>
+        <button class="key op" type="button" data-op="swap">Swap</button>
+        <button class="key wide" type="button">0</button>
+        <button class="key" type="button">.</button>
+        <button class="key op" type="button" data-op="sign">±</button>
+      </div>
+
+      <div class="row-flex">
+        <button class="key op" type="button" data-type="add">Add</button>
+        <button class="key op" type="button" data-type="subtract">Subtract</button>
+        <button class="key op" type="button" data-type="multiply">Multiply</button>
+      </div>
+      <div class="row-flex">
+        <button class="key op" type="button" data-type="divide">Divide</button>
+        <button class="key op" type="button" data-type="modulus">Modulus</button>
+        <button class="key op" type="button" data-type="exponent">Exponent</button>
+      </div>
+
+      <div class="row-flex">
+        <button class="ghost-btn" type="button" id="resetCalc">Reset</button>
+        <button class="cta-btn" type="button" id="create">Compute & Save</button>
+      </div>
+      <div id="createMsg" style="margin-top:8px"></div>
+
+      <!-- Hidden but preserved inputs/select for compatibility -->
+      <input id="a" type="number" step="any" style="display:none" />
+      <input id="b" type="number" step="any" style="display:none" />
+      <select id="type" style="display:none">
         <option value="add">add</option>
         <option value="subtract">subtract</option>
         <option value="multiply">multiply</option>
@@ -56,78 +195,188 @@
         <option value="modulus">modulus</option>
         <option value="exponent">exponent</option>
       </select>
-      <button id="create">Create</button>
-      <div id="createMsg"></div>
     </div>
 
-    <hr />
-    <div class="row">
-      <button id="list">Refresh List</button>
-      <button id="clearLocal">Clear Token</button>
+    <div class="card">
+      <div class="row-flex" style="margin-top:0;align-items:center">
+        <h2 style="margin:0">Saved Calculations</h2>
+        <button id="list" class="ghost" type="button" style="max-width:120px">Refresh</button>
+      </div>
+      <div class="subtext">Tap a row to edit or delete.</div>
+      <div class="list" id="listArea"></div>
     </div>
-
-    <div class="list" id="listArea"></div>
   </div>
 
   <script>
-    const tokenInput = document.getElementById('token');
-    const tokenDisplay = document.getElementById('tokenDisplay');
-    const tokenStatus = document.getElementById('tokenStatus');
-    const showHide = document.getElementById('showHide');
-    const copyBtn = document.getElementById('copyToken');
-    const editBtn = document.getElementById('editToken');
-    const loadBtn = document.getElementById('loadToken');
+    function getToken(){ return (localStorage.getItem('access_token') || '').trim(); }
 
-    function getStored(){ return (localStorage.getItem('access_token') || '').trim(); }
-    function setStored(v){ if (v) localStorage.setItem('access_token', v); else localStorage.removeItem('access_token'); tokenInput.value = v || ''; updateUI(); }
+    // Check login status and update UI
+    async function checkLoginStatus() {
+      const token = getToken();
+      const isLoggedIn = !!token;
 
-    tokenInput.value = getStored();
+      // Header navigation
+      document.getElementById('navRegister').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('navLogin').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('navProfile').style.display = isLoggedIn ? 'inline' : 'none';
+      document.getElementById('navLogout').style.display = isLoggedIn ? 'inline' : 'none';
+      document.getElementById('userBadge').style.display = isLoggedIn ? 'flex' : 'none';
 
-    let revealed = false;
-    function masked(t){ if (!t) return '(no token)'; if (t.length <= 12) return t; return t.slice(0,6) + '…' + t.slice(-6); }
-    function updateUI(){
-      const v = tokenInput.value || '';
-      tokenDisplay.textContent = revealed ? v : masked(v);
-      tokenStatus.textContent = v ? `Token present (${v.length} chars)` : 'No token present';
-      showHide.textContent = v ? (revealed ? 'Hide' : 'Show') : 'Show';
+      // Sidebar navigation
+      document.getElementById('sidebarRegister').style.display = isLoggedIn ? 'none' : 'flex';
+      document.getElementById('sidebarLogin').style.display = isLoggedIn ? 'none' : 'flex';
+      document.getElementById('sidebarProfile').style.display = isLoggedIn ? 'flex' : 'none';
+      document.getElementById('sidebarLogout').style.display = isLoggedIn ? 'block' : 'none';
+      document.getElementById('clearLocalSidebar').style.display = isLoggedIn ? 'block' : 'none';
+
+      if (isLoggedIn) {
+        // Fetch user info
+        try {
+          const response = await fetch('/users/me', {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if (response.ok) {
+            const user = await response.json();
+            document.getElementById('headerUsername').textContent = user.username;
+            document.getElementById('headerAvatar').textContent = user.username.charAt(0).toUpperCase();
+          } else if (response.status === 401) {
+            // Token expired
+            localStorage.removeItem('access_token');
+            checkLoginStatus();
+          }
+        } catch (err) {
+          console.error('Failed to fetch user info:', err);
+        }
+      }
     }
-    updateUI();
 
-    showHide.addEventListener('click', ()=>{ revealed = !revealed; updateUI(); });
-    copyBtn.addEventListener('click', async ()=>{
-      const v = tokenInput.value || '';
-      if (!v) { alert('No token to copy'); return; }
-      try{ await navigator.clipboard.writeText(v); alert('Token copied to clipboard'); }catch(e){ alert('Copy failed: '+e); }
+    // Show login modal if not logged in
+    function promptLogin() {
+      const token = getToken();
+      if (!token) {
+        document.getElementById('loginModal').classList.add('active');
+        return false;
+      }
+      return true;
+    }
+
+    // Modal handlers
+    document.getElementById('modalCancel')?.addEventListener('click', () => {
+      document.getElementById('loginModal').classList.remove('active');
     });
-    editBtn.addEventListener('click', ()=>{
-      const cur = tokenInput.value || '';
-      const val = prompt('Paste or edit token:', cur);
-      if (val === null) return;
-      setStored(val.trim());
-      alert('Token updated');
+
+    document.getElementById('modalLogin')?.addEventListener('click', () => {
+      window.location.href = '/static/login.html';
     });
-    loadBtn.addEventListener('click', ()=>{ const s = getStored(); if (s){ tokenInput.value = s; updateUI(); alert('Loaded token from localStorage'); } else { alert('No token in localStorage (key: access_token).'); } });
-    document.getElementById('clearLocal').addEventListener('click', ()=>{ setStored(''); alert('Token cleared'); });
+
+    // Logout handlers
+    function handleLogout() {
+      localStorage.removeItem('access_token');
+      alert('Logged out successfully');
+      checkLoginStatus();
+      loadList();
+    }
+
+    document.getElementById('navLogout')?.addEventListener('click', handleLogout);
+    document.getElementById('sidebarLogout')?.addEventListener('click', () => {
+      handleLogout();
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+
+    // Initialize login status
+    window.addEventListener('load', checkLoginStatus);
 
     async function authFetch(url, opts={}){
-      const token = localStorage.getItem('access_token') || tokenInput.value.trim();
+      const token = getToken();
+      if (!token) return { ok:false, status:401, text:'Please login first.' };
       opts.headers = opts.headers || {};
-      if (token) opts.headers['Authorization'] = token.startsWith('Bearer ') ? token : 'Bearer '+token;
+      opts.headers['Authorization'] = token.startsWith('Bearer ') ? token : 'Bearer '+token;
       const r = await fetch(url, opts);
       const text = await r.text();
       try{ return { ok: r.ok, status: r.status, json: JSON.parse(text), text }; }catch(e){ return { ok: r.ok, status: r.status, text }; }
     }
 
+    // Calculator state
+    let target = 'a';
+    let valA = '0';
+    let valB = '0';
+
+    const opALabel = document.getElementById('opA-label');
+    const opBLabel = document.getElementById('opB-label');
+    const opAVal = document.getElementById('opA-val');
+    const opBVal = document.getElementById('opB-val');
+    const opType = document.getElementById('opType');
+
+    function syncInputs(){
+      document.getElementById('a').value = valA || '0';
+      document.getElementById('b').value = valB || '0';
+      document.getElementById('type').value = opType.textContent;
+      opAVal.textContent = valA;
+      opBVal.textContent = valB;
+      opALabel.textContent = target==='a' ? 'active' : 'idle';
+      opBLabel.textContent = target==='b' ? 'active' : 'idle';
+    }
+    syncInputs();
+
+    document.getElementById('targetA').addEventListener('click', ()=>{ target='a'; document.getElementById('targetA').classList.add('active'); document.getElementById('targetB').classList.remove('active'); syncInputs(); });
+    document.getElementById('targetB').addEventListener('click', ()=>{ target='b'; document.getElementById('targetB').classList.add('active'); document.getElementById('targetA').classList.remove('active'); syncInputs(); });
+
+    function applyKey(k){
+      let cur = target==='a' ? valA : valB;
+      if (k === 'clear'){ cur = '0'; }
+      else if (k === 'back'){ cur = cur.length > 1 ? cur.slice(0,-1) : '0'; }
+      else if (k === 'sign'){ cur = cur.startsWith('-') ? cur.slice(1) : (cur==='0' ? cur : '-'+cur); }
+      else if (k === 'swap'){ const tmp = valA; valA = valB; valB = tmp; syncInputs(); return; }
+      else if (k === '.') { if (!cur.includes('.')) cur = cur + '.'; }
+      else {
+        if (cur === '0') cur = k; else cur += k;
+      }
+      if (target === 'a') valA = cur; else valB = cur;
+      syncInputs();
+    }
+
+    document.querySelectorAll('.keypad .key, .row-flex .key.op').forEach(btn=>{
+      const op = btn.dataset.op;
+      if (op){
+        btn.addEventListener('click', ()=>applyKey(op));
+      } else if (btn.dataset.type){
+        btn.addEventListener('click', ()=>{ opType.textContent = btn.dataset.type; syncInputs(); });
+      } else {
+        btn.addEventListener('click', ()=>applyKey(btn.textContent.trim()));
+      }
+    });
+
+    document.getElementById('resetCalc').addEventListener('click', ()=>{ valA='0'; valB='0'; opType.textContent='add'; syncInputs(); document.getElementById('createMsg').textContent=''; document.getElementById('createMsg').className=''; });
+
     document.getElementById('create').addEventListener('click', async ()=>{
+      const msg = document.getElementById('createMsg');
+      msg.textContent='';
+      
+      // Check if logged in first
+      if (!promptLogin()) {
+        msg.textContent = 'Login required to save calculations';
+        msg.className = 'error';
+        return;
+      }
+
       const a = parseFloat(document.getElementById('a').value);
       const b = parseFloat(document.getElementById('b').value);
       const type = document.getElementById('type').value;
-      const msg = document.getElementById('createMsg');
-      msg.textContent='';
+      
       if (Number.isNaN(a) || Number.isNaN(b)) { msg.textContent='a and b must be numbers'; msg.className='error'; return; }
       if ((type==='divide' || type==='modulus') && b===0){ msg.textContent='b cannot be zero for divide or modulus'; msg.className='error'; return; }
       const res = await authFetch('/calculations', { method: 'POST', body: JSON.stringify({a,b,type}), headers: {'Content-Type':'application/json'} });
-      if (!res.ok) { msg.textContent = `Error ${res.status}: ${res.text || JSON.stringify(res.json)}`; msg.className='error'; return; }
+      if (!res.ok) {
+        if (res.status === 401) { 
+          msg.textContent = 'Session expired. Please login again.'; 
+          msg.className='error'; 
+          localStorage.removeItem('access_token');
+          setTimeout(promptLogin, 1000);
+          return; 
+        }
+        msg.textContent = `Error ${res.status}: ${res.text || JSON.stringify(res.json)}`; msg.className='error'; return;
+      }
       msg.textContent='Created id='+res.json.id+' result='+res.json.result; msg.className='success';
       loadList();
     });
@@ -135,10 +384,25 @@
     async function loadList(){
       const out = document.getElementById('listArea');
       out.innerHTML = 'Loading...';
+      
+      const token = getToken();
+      if (!token) {
+        out.innerHTML = '<div class="muted" style="text-align:center;padding:20px"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:12px;opacity:0.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div style="margin-bottom:8px;color:var(--text)">Not logged in</div>Login to save and view your calculation history.<br><button class="cta-btn" style="margin-top:12px" onclick="document.getElementById(\'loginModal\').classList.add(\'active\')">Login Now</button></div>';
+        return;
+      }
+
       const res = await authFetch('/calculations');
-      if (!res.ok){ out.innerHTML = '<div class="error">Error '+res.status+': '+(res.text||'')+'</div>'; return; }
+      if (!res.ok){
+        if (res.status === 401){ 
+          out.innerHTML = '<div class="error">Session expired. Please <a href="/static/login.html">login</a> again.</div>'; 
+          localStorage.removeItem('access_token');
+          checkLoginStatus();
+          return; 
+        }
+        out.innerHTML = '<div class="error">Error '+res.status+': '+(res.text||'')+'</div>'; return;
+      }
       const arr = res.json || [];
-      if (!arr.length) { out.innerHTML = '<div class="muted">No calculations yet</div>'; return; }
+      if (!arr.length) { out.innerHTML = '<div class="muted">No calculations yet. Start calculating above!</div>'; return; }
       out.innerHTML = '';
       for(const c of arr){
         const div = document.createElement('div'); div.className='calc';
@@ -175,8 +439,38 @@
     }
 
     document.getElementById('list').addEventListener('click', loadList);
-    // auto-load
     window.addEventListener('load', loadList);
+
+    // Sidebar toggle
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const hamburger = document.getElementById('hamburger');
+    const sidebarClose = document.getElementById('sidebarClose');
+    
+    hamburger?.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+    });
+    
+    sidebarClose?.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+    
+    overlay?.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+    
+    // Clear token from sidebar
+    document.getElementById('clearLocalSidebar')?.addEventListener('click', () => {
+      localStorage.removeItem('access_token');
+      alert('Token cleared');
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      checkLoginStatus();
+      loadList();
+    });
   </script>
 </body>
 </html>
