@@ -1,138 +1,221 @@
 FastAPI Calculator — README
 ===========================
 
-This project is a small FastAPI application that supports user registration/login (JWT-based authentication) and calculation resources (create/list/read/update/delete). The repository includes unit, integration, and e2e tests (Playwright).
+This project is a FastAPI application that supports user registration/login (JWT-based authentication) and calculation resources (create/list/read/update/delete). The repository includes unit, integration, and e2e tests (Playwright) with **94% test coverage**.
 
-This README focuses on how to run the integration tests locally and how to perform manual checks using the OpenAPI (Swagger) UI.
+**Docker Hub Repository**
+
+Pre-built Docker images are available at:
+- 🐳 [https://hub.docker.com/repository/docker/anvith123/fastapi-calculator-user-model](https://hub.docker.com/repository/docker/anvith123/fastapi-calculator-user-model)
 
 **Prerequisites**
 
-- Python 3.10+ (3.11 recommended)
+- Python 3.10+ (3.11 or 3.12 recommended)
 - `git` and network access to GitHub (optional)
-- Optional: Docker & Docker Compose (only if you want to run Postgres or CI-like environment locally)
+- Optional: Docker & Docker Compose (for containerized deployment)
 
-**Quick setup (recommended)**
+---
 
-- Create and activate a virtual environment (macOS `zsh` example):
+## 🚀 Running the Application
+
+### Option 1: Local Development (Recommended)
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/AnvithAnvi/Calculation-Model-with-Optional-Factory-Pattern.git
+cd Calculation-Model-with-Optional-Factory-Pattern
+```
+
+2. **Create and activate a virtual environment:**
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-- Install dependencies:
+3. **Install dependencies:**
 
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+pip install -r requirements-dev.txt  # For testing
 ```
 
-**Environment variables**
-
-- `JWT_SECRET` — required for JWT token creation/verification. Export a value before running tests or starting the server. Example for local testing:
+4. **Set environment variables:**
 
 ```bash
-export JWT_SECRET="replace-with-a-random-secret"
+export JWT_SECRET="your-secret-key-here"
 export ACCESS_TOKEN_EXPIRE_MINUTES=60
 ```
 
-- `DATABASE_URL` — optional. By default the project now uses a file-backed SQLite DB at `sqlite:///./tmp_test.db` for local tests to avoid issues with a checked-in or read-only `test.db`. To point to a Postgres instance or other DB, set `DATABASE_URL` appropriately (example for Postgres):
+5. **Start the application:**
 
 ```bash
-export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/fastapi_test"
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Note: On CI, the workflow sets `DATABASE_URL` to the service Postgres instance.
+6. **Access the application:**
+   - API Documentation (Swagger UI): http://127.0.0.1:8000/docs
+   - Alternative Docs (ReDoc): http://127.0.0.1:8000/redoc
+   - Web UI: http://127.0.0.1:8000/static/login.html
 
-Important local note: If your repository contains a committed `test.db` file it can cause intermittent "readonly database" errors in some environments. It's recommended to remove any committed `test.db` and add it to `.gitignore`:
+### Option 2: Using Docker
+
+1. **Pull the image from Docker Hub:**
 
 ```bash
-git rm --cached test.db || true
-echo "test.db" >> .gitignore
-git add .gitignore
-git commit -m "chore: ignore local test.db (use tmp_test.db for local tests)" || true
+docker pull anvith123/fastapi-calculator-user-model:latest
 ```
 
-**Resetting local test DB**
-
-If you need to remove the file-backed test DB and start fresh:
+2. **Run the container:**
 
 ```bash
-rm -f test.db
-python reset_db.py
+docker run -d \
+  -p 8000:8000 \
+  -e JWT_SECRET="your-secret-key-here" \
+  -e ACCESS_TOKEN_EXPIRE_MINUTES=60 \
+  --name fastapi-calculator \
+  anvith123/fastapi-calculator-user-model:latest
 ```
 
-`conftest.py` also attempts to remove `test.db` at session start to avoid stale schemas.
+3. **Access the application at http://localhost:8000**
 
-**Run integration tests**
+### Option 3: Using Docker Compose
 
-- Run only integration tests (recommended when iterating on API changes):
+1. **Start the services:**
+
+```bash
+docker-compose up -d
+```
+
+2. **Stop the services:**
+
+```bash
+docker-compose down
+```
+
+---
+
+## 🧪 Running Tests Locally
+
+### Run All Tests
 
 ```bash
 # Ensure environment variables are set
-export JWT_SECRET="replace-with-a-random-secret"
-# Run integration tests
-pytest tests/integration -q
+export JWT_SECRET="test-secret-key"
+
+# Run all tests (unit + integration + e2e)
+pytest -v
+
+# Run all tests with coverage report
+pytest --cov=app --cov-report=term-missing --cov-report=html
 ```
 
-- Run the full test suite (unit + integration + e2e):
+### Run Specific Test Suites
+
+```bash
+# Unit tests only
+pytest tests/unit -v
+
+# Integration tests only
+pytest tests/integration -v
+
+# E2E tests only (requires Playwright)
+python -m playwright install chromium  # First time only
+pytest tests/e2e -v
+```
+
+### Quick Test Run (No Verbose Output)
 
 ```bash
 pytest -q
 ```
 
-Notes:
-- Integration tests use the configured `DATABASE_URL` (or the default `sqlite:///./test.db` from `conftest.py`).
-- Tests create unique users where necessary to avoid collisions.
+### Coverage Report
 
-**Start the app and use OpenAPI (manual checks)**
-
-1. Start the FastAPI server with `uvicorn` (from project root):
+After running tests with coverage, view the HTML report:
 
 ```bash
-# With virtualenv active
+# Generate coverage report
+pytest --cov=app --cov-report=html
+
+# Open in browser (macOS)
+open htmlcov/index.html
+
+# Or on Linux
+xdg-open htmlcov/index.html
+```
+
+**Current Test Coverage: 94%** (94 passing tests)
+
+---
+
+## 📋 Environment Variables
+
+## 📋 Environment Variables
+
+- `JWT_SECRET` — **Required** for JWT token creation/verification. Example:
+
+```bash
 export JWT_SECRET="replace-with-a-random-secret"
-uvicorn app.main:app --reload
 ```
 
-By default the app will be available at `http://127.0.0.1:8000`.
+- `ACCESS_TOKEN_EXPIRE_MINUTES` — Optional. Default is 60 minutes. Example:
 
-2. Open the interactive docs (OpenAPI / Swagger UI):
+```bash
+export ACCESS_TOKEN_EXPIRE_MINUTES=60
+```
 
-- Visit: `http://127.0.0.1:8000/docs`
-- The ReDoc documentation is at: `http://127.0.0.1:8000/redoc`
+- `DATABASE_URL` — Optional. By default uses SQLite at `sqlite:///./tmp_test.db`. For PostgreSQL:
 
-3. Typical manual flow using the OpenAPI UI
+```bash
+export DATABASE_URL="postgresql://postgres:password@localhost:5432/fastapi_db"
+```
 
-- Register a user: `POST /users/register`
-  - Request body example (JSON):
+---
+
+## 🔧 API Usage Examples
+
+### Manual Testing with Swagger UI
+
+1. **Start the application** (see Running the Application section)
+
+2. **Open Swagger UI:** http://127.0.0.1:8000/docs
+
+3. **Register a new user:**
+   - Endpoint: `POST /users/`
+   - Request body:
 
 ```json
 {
   "username": "alice",
-  "password": "s3cret"
+  "email": "alice@example.com",
+  "password": "password123"
 }
 ```
 
-- Login: `POST /users/login`
-  - Request body example (JSON):
+4. **Login:**
+   - Endpoint: `POST /users/login`
+   - Request body:
 
 ```json
 {
-  "username": "alice",
-  "password": "s3cret"
+  "username_or_email": "alice",
+  "password": "password123"
 }
 ```
 
-  - Response contains a JWT access token, e.g. `{"access_token": "<token>", "token_type": "bearer"}`.
+   - Copy the `access_token` from the response
 
-- Authorize the OpenAPI UI:
-  - Click the "Authorize" button in Swagger UI.
-  - Enter `Bearer <token>` (where `<token>` is the `access_token` value from login).
-  - After authorizing, subsequent requests from the Swagger UI will include the token.
+5. **Authorize in Swagger UI:**
+   - Click the "Authorize" button (🔓)
+   - Enter: `Bearer <your_access_token>`
+   - Click "Authorize"
 
-- Create a calculation: `POST /calculations`
-  - Request body example (JSON):
+6. **Create a calculation:**
+   - Endpoint: `POST /calculations`
+   - Request body:
 
 ```json
 {
@@ -142,49 +225,186 @@ By default the app will be available at `http://127.0.0.1:8000`.
 }
 ```
 
-- List calculations: `GET /calculations`
-- Read a calculation: `GET /calculations/{id}`
-- Update a calculation: `PUT /calculations/{id}` (body similar to create)
-- Delete a calculation: `DELETE /calculations/{id}`
+7. **List all calculations:** `GET /calculations`
 
-The application also exposes legacy endpoints for single operations (may accept optional authentication), but the `/calculations` endpoints provide full CRUD.
+8. **Get calculation by ID:** `GET /calculations/{id}`
 
-**Division-by-zero validation**
+9. **Update a calculation:** `PUT /calculations/{id}`
 
-The API prevents division-by-zero at validation time. Attempting to create a calculation with `type: "divide"` and `b: 0` will return a validation error (HTTP 422).
+10. **Delete a calculation:** `DELETE /calculations/{id}`
 
-**Debugging tips**
+### Available Operations
 
-- If you see errors about missing tables during tests or server start, ensure that `DATABASE_URL` is set before the app imports (the tests rely on `conftest.py` to set defaults) and that `test.db` isn't stale.
-- To clear local test DB state: `rm -f test.db` then re-run tests or `python reset_db.py`.
+- **add** - Addition
+- **subtract** - Subtraction  
+- **multiply** - Multiplication
+- **divide** - Division (validates against division by zero)
 
-**CI / GitHub Actions**
+---
 
-- The repository includes a CI workflow that runs unit and integration tests and an e2e job that starts `uvicorn` and runs Playwright tests.
-- For the CI to fully run and push Docker images you must add repository secrets:
-  - `JWT_SECRET` — required for JWT-based tests.
-  - `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` — required for the `build_and_push` job to publish images.
+## 🗄️ Database Management
 
-**Useful commands summary**
+**Resetting local test database:**
 
 ```bash
-# create + activate virtualenv
+rm -f test.db tmp_test.db
+python reset_db.py
+```
+
+**Note:** If you encounter "readonly database" errors, remove any committed `test.db`:
+
+```bash
+git rm --cached test.db || true
+echo "test.db" >> .gitignore
+rm -f test.db
+```
+
+---
+
+## 🚢 CI/CD & GitHub Actions
+
+## 🚢 CI/CD & GitHub Actions
+
+The repository includes automated CI/CD workflows:
+
+- **Automated Testing:** Runs unit, integration, and e2e tests on every push
+- **PostgreSQL Integration:** Tests against PostgreSQL 16 in CI environment
+- **Code Coverage:** Generates coverage reports (currently 94%)
+- **Docker Build:** Automatically builds and pushes images to Docker Hub
+
+**Required Repository Secrets:**
+- `JWT_SECRET` — Required for JWT-based tests
+- `DOCKERHUB_USERNAME` — For pushing Docker images
+- `DOCKERHUB_TOKEN` — Docker Hub access token
+
+---
+
+## 📦 Project Structure
+
+```
+.
+├── app/
+│   ├── __init__.py
+│   ├── main.py                 # FastAPI application & endpoints
+│   ├── models.py               # SQLAlchemy models
+│   ├── schemas.py              # Pydantic schemas
+│   ├── database.py             # Database configuration
+│   ├── security.py             # JWT authentication
+│   ├── operations.py           # Calculation operations
+│   ├── calculation_factory.py # Factory pattern implementation
+│   ├── stats.py                # Statistics utilities
+│   └── logger_config.py        # Logging configuration
+├── tests/
+│   ├── unit/                   # Unit tests
+│   ├── integration/            # Integration tests
+│   └── e2e/                    # End-to-end Playwright tests
+├── static/                     # Frontend HTML/CSS/JS
+├── .github/workflows/          # GitHub Actions CI/CD
+├── requirements.txt            # Production dependencies
+├── requirements-dev.txt        # Development dependencies
+├── docker-compose.yml          # Docker Compose configuration
+├── Dockerfile                  # Docker build instructions
+└── README.md                   # This file
+```
+
+---
+
+## 🔍 Troubleshooting
+
+**"No such table" errors:**
+- Ensure `DATABASE_URL` is set correctly before starting the app
+- Clear the database: `rm -f test.db tmp_test.db && python reset_db.py`
+
+**"Readonly database" errors:**
+- Remove committed test.db: `git rm --cached test.db && rm -f test.db`
+- Add to .gitignore: `echo "test.db" >> .gitignore`
+
+**E2E tests failing:**
+- Install Playwright browsers: `python -m playwright install chromium`
+- Ensure port 8000 is not in use: `lsof -i :8000`
+
+**Import errors:**
+- Verify virtual environment is activated: `which python`
+- Reinstall dependencies: `pip install -r requirements.txt -r requirements-dev.txt`
+
+---
+
+## 📊 Test Coverage
+
+Current coverage: **94%** with **94 passing tests**
+
+**100% Coverage:**
+- calculation_factory.py
+- models.py
+- operations.py
+- schemas.py
+- stats.py
+- logger_config.py
+
+**High Coverage:**
+- main.py: 93%
+- security.py: 97%
+- database.py: 80%
+
+---
+
+## 📝 Quick Command Reference
+
+## 📝 Quick Command Reference
+
+```bash
+# Setup
 python3 -m venv .venv
 source .venv/bin/activate
+pip install -r requirements.txt -r requirements-dev.txt
 
-# install dependencies
-pip install -r requirements.txt
+# Environment
+export JWT_SECRET="your-secret-key"
+export ACCESS_TOKEN_EXPIRE_MINUTES=60
 
-# export JWT secret
-export JWT_SECRET="replace-with-a-random-secret"
+# Run Application
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-# run integration tests
-pytest tests/integration -q
+# Testing
+pytest -v                                                    # All tests
+pytest tests/unit -v                                         # Unit tests only
+pytest tests/integration -v                                  # Integration tests only
+pytest tests/e2e -v                                          # E2E tests only
+pytest --cov=app --cov-report=term-missing --cov-report=html # With coverage
 
-# run full tests
-pytest -q
+# Docker
+docker pull anvith123/fastapi-calculator-user-model:latest
+docker run -d -p 8000:8000 -e JWT_SECRET="secret" anvith123/fastapi-calculator-user-model:latest
+docker-compose up -d
 
-# start server for manual OpenAPI checks
-uvicorn app.main:app --reload
+# Database
+python reset_db.py                                           # Reset database
+rm -f test.db tmp_test.db                                    # Clean test databases
 ```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Make your changes and add tests
+4. Ensure tests pass: `pytest -v`
+5. Commit your changes: `git commit -m "Add your feature"`
+6. Push to the branch: `git push origin feature/your-feature`
+7. Create a Pull Request
+
+---
+
+## 📄 License
+
+This project is for educational purposes.
+
+---
+
+## 🔗 Links
+
+- **Docker Hub:** https://hub.docker.com/repository/docker/anvith123/fastapi-calculator-user-model
+- **GitHub Repository:** https://github.com/AnvithAnvi/Calculation-Model-with-Optional-Factory-Pattern
+- **API Documentation:** http://localhost:8000/docs (when running locally)
 
