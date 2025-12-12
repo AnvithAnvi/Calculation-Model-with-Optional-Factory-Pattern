@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import time
 from playwright.sync_api import sync_playwright
 
@@ -7,7 +8,7 @@ def _start_uvicorn():
     # Start uvicorn in a subprocess; return the Popen object
     # Write uvicorn output to a temporary log to aid debugging when tests fail
     log = open('/tmp/uv_e2e.log', 'a')
-    proc = subprocess.Popen(["./.venv/bin/python", "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"],
+    proc = subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"],
                             stdout=log, stderr=subprocess.STDOUT)
     # wait for server to be reachable
     for i in range(60):

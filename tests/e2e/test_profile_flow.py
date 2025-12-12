@@ -1,11 +1,12 @@
 import time
 import subprocess
+import sys
 from playwright.sync_api import sync_playwright
 
 
 def _start_uvicorn():
     log = open('/tmp/uv_e2e.log', 'a')
-    proc = subprocess.Popen(["./.venv/bin/python", "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"], stdout=log, stderr=subprocess.STDOUT)
+    proc = subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"], stdout=log, stderr=subprocess.STDOUT)
     for i in range(60):
         try:
             import requests
